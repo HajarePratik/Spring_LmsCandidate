@@ -1,0 +1,63 @@
+package com.bridgelabz.lmscandidate.model;
+
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.validation.Valid;
+
+import com.bridgelabz.lmscandidate.dto.LmsHiringDTO;
+
+import lombok.Data;
+
+
+@Entity
+@Table(name = "candidate_hiring")
+public @Data class LmsHiring {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private int id;
+	
+	
+	public String firstName;
+	public String middleName;
+	public String lastName;
+	public String email;
+	public String mobileNum;
+	public String hiredcity;
+	public String parentName;
+	public String parentMobile;
+	public String temporaryAddress;
+	public String occupation;
+	public String parentAnnualSalary;
+	public String permanentAddress;
+	public String profileImage;
+	public String folderId;
+	
+	public LmsHiring() {
+	
+	}
+	
+	public LmsHiring(int id, @Valid LmsHiringDTO HiringDTO)
+	{
+		// TODO Auto-generated constructor stub
+		this.firstName = HiringDTO.getFirstName();
+		this.middleName = HiringDTO.getMiddleName();
+		this.lastName = HiringDTO.getLastName();
+		this.email = HiringDTO.getEmail();
+		this.mobileNum = HiringDTO.getMobileNum();
+		this.hiredcity = HiringDTO.getHiredcity();
+		this.parentName = HiringDTO.getParentName();
+		this.parentMobile = HiringDTO.getParentMobile();
+		this.temporaryAddress = HiringDTO.getTemporaryAddress();
+		this.occupation = HiringDTO.getOccupation();
+		this.parentAnnualSalary = HiringDTO.getParentAnnualSalary();
+		this.profileImage = HiringDTO.getProfileImage();
+		this.folderId = HiringDTO.getFolderId();
+	}
+
+	
+}
