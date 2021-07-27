@@ -14,41 +14,42 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bridgelabz.lmscandidate.dto.LmsHiringDTO;
+import com.bridgelabz.lmscandidate.dto.LmsCandidateDTO;
 import com.bridgelabz.lmscandidate.dto.ResponseDTO;
-import com.bridgelabz.lmscandidate.service.ILmsHiringService;
+import com.bridgelabz.lmscandidate.service.ILmsCandidateService;
+
 
 @RestController
-@RequestMapping("/lmscandidatehiring")
-public class LmsHiringController {
+@RequestMapping("/lmscandidate")
+public class LmsCandidateController {
 	
 	@Autowired(required = true)
-	private ILmsHiringService hiringService;
+	private ILmsCandidateService candidateService;
 	
 	@GetMapping("/get")
-	public ResponseEntity<ResponseDTO> getCandidateHiringData()
+	public ResponseEntity<ResponseDTO> getCandidateData()
 	{
-		ResponseDTO resDTO = hiringService.getCandidateHiringData(); 
+		ResponseDTO resDTO = candidateService.getCandidateData(); 
 		return new ResponseEntity<ResponseDTO>(resDTO, HttpStatus.OK);
 	}
-	@PostMapping("/createcandidatehiring")
-	public ResponseEntity<ResponseDTO> createCandidateHiringData(@RequestBody LmsHiringDTO hiringDTO)
+	@PostMapping("/createcandidate")
+	public ResponseEntity<ResponseDTO> createCandidateData(@RequestBody LmsCandidateDTO candidateDTO)
 	{
 
-		ResponseDTO candidateData = hiringService.createCandidateHiringData(hiringDTO);
-		ResponseDTO resDTO = new ResponseDTO("Create Candidate Details Sucessfully :"+candidateData, hiringDTO);
+		ResponseDTO candidateData = candidateService.createCandidateData(candidateDTO);
+		ResponseDTO resDTO = new ResponseDTO("Create Candidate Details Sucessfully :"+candidateData, candidateDTO);
 		return new ResponseEntity<ResponseDTO>(resDTO,HttpStatus.OK);
 	}
 	
-	@PutMapping("/updatecandidatehiring/{token}")
-	public ResponseEntity<ResponseDTO> updateCandidateHiringDataById(@PathVariable String token,@Valid @RequestBody LmsHiringDTO hiringDTO) {
-		ResponseDTO respDTO = hiringService.updateCandidateHiringDataById(token,hiringDTO);
+	@PutMapping("/updatecandidate/{token}")
+	public ResponseEntity<ResponseDTO> updateCandidateDataById(@PathVariable String token,@Valid @RequestBody LmsCandidateDTO candidateDTO) {
+		ResponseDTO respDTO = candidateService.updateCandidateDataById(token,candidateDTO);
 		return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
 	}
 
-	@DeleteMapping("/deletecandidatehiring/{token}")
+	@DeleteMapping("/deletecandicate/{token}")
 	public ResponseEntity<ResponseDTO> deleteCandidateHiringDataById(@PathVariable String token) {
-		hiringService.deleteCandidateHiringDataById(token);
+		candidateService.deleteCandidateDataById(token);
 		ResponseDTO respDTO = new ResponseDTO("Deleted Candidate with id : ", token);
 		return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
 	}
