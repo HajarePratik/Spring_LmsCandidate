@@ -1,6 +1,5 @@
 package com.bridgelabz.lmscandidate.dto;
 
-
 import java.time.LocalDate;
 
 import javax.validation.constraints.NotEmpty;
@@ -12,39 +11,31 @@ import com.sun.istack.NotNull;
 
 import lombok.Data;
 
+public @Data class LmsBankInfoDTO {
 
-public @Data class LmsHiringDTO {
+	@NotNull
+	public String panNumber;
 	
 	@NotNull
-	public String firstName;
+	public String aadharNumber;
+	
 	@NotNull
-	public String middleName;
+	public String bankName;
+	
 	@NotNull
-	public String lastName;
+	public String bankAccountNumber;
+	
 	@NotNull
-	public String email;
+	public String ifscCode;
+	
 	@NotNull
-	public String mobileNum;
+	public String passbookPath;
+	
 	@NotNull
-	public String hiredcity;
+	public String panPath;
+	
 	@NotNull
-	public String parentName;
-	@NotNull
-	public String parentMobile;
-	@NotNull
-	public String temporaryAddress;
-	@NotNull
-	public String occupation;
-	@NotNull
-	public String parentAnnualSalary;
-	@NotNull
-	public String permanentAddress;
-	@NotNull
-	public String profileImage;
-	@NotNull
-	public String folderId;
-	@NotNull
-	public String status;
+	public String aadharPath;
 	
 	@NotEmpty(message = "creatorStamp should Not be Empty")
 	@PastOrPresent(message = "creatorStamp should be past or todays date")
@@ -55,11 +46,4 @@ public @Data class LmsHiringDTO {
 	@PastOrPresent(message = "updateStamp should be past or todays date")
 	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
 	public LocalDate updateStamp;
-	
-	@NotNull
-	public String bankInfo;
-	
-	@NotNull
-	public String qualification_Info;
-	
 }

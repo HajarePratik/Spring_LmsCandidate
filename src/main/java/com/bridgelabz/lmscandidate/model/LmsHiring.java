@@ -1,6 +1,8 @@
 package com.bridgelabz.lmscandidate.model;
 
 
+import java.time.LocalDate;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -36,6 +38,11 @@ public @Data class LmsHiring {
 	public String permanentAddress;
 	public String profileImage;
 	public String folderId;
+	public String status;
+	public LocalDate creatorStamp;
+	public LocalDate updateStamp;
+	public String bankInfo;
+	public String qualification_Info;
 	
 	public LmsHiring() {
 	
@@ -57,6 +64,11 @@ public @Data class LmsHiring {
 		this.parentAnnualSalary = HiringDTO.getParentAnnualSalary();
 		this.profileImage = HiringDTO.getProfileImage();
 		this.folderId = HiringDTO.getFolderId();
+		this.status = HiringDTO.getStatus();
+		this.creatorStamp = HiringDTO.getCreatorStamp();
+		this.updateStamp = HiringDTO.getUpdateStamp();
+		this.bankInfo = HiringDTO.getBankInfo();
+		this.qualification_Info = HiringDTO.getQualification_Info();
 	}
 
 	

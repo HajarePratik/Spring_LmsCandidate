@@ -38,9 +38,10 @@ public @Data class LmsCandidate {
 	public String creatorUser;
 	public LocalDate joindate;
 	public String location;
+	public String status;
 	public double aggrPer;
-	public String currentPincode;
-	public String permanentPincode;
+	public int currentPincode;
+	public int permanentPincode;
 	
 
 	public LmsCandidate() {
@@ -66,6 +67,7 @@ public @Data class LmsCandidate {
 		this.creatorUser = CandidateDTO.getCreatorUser();
 		this.joindate = CandidateDTO.getJoindate();
 		this.location = CandidateDTO.getLocation();
+		this.status = CandidateDTO.getStatus();
 		this.aggrPer = CandidateDTO.getAggrPer();
 		this.currentPincode = CandidateDTO.getCurrentPincode();
 		this.permanentPincode = CandidateDTO.getPermanentPincode();

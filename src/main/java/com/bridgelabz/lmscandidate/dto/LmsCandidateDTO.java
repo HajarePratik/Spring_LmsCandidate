@@ -57,6 +57,9 @@ public @Data class LmsCandidateDTO {
 	@NotNull
 	public String creatorUser;
 	
+	@NotNull
+	public String status;
+	
 	@NotEmpty(message = "joinDate should Not be Empty")
 	@PastOrPresent(message = "joinDate should be past or todays date")
 	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
@@ -70,9 +73,9 @@ public @Data class LmsCandidateDTO {
 	public double aggrPer;
 	
 	@NotNull
-	public String currentPincode;
+	public int currentPincode;
 	
 	@NotNull
-	public String permanentPincode;
+	public int permanentPincode;
 
 }
