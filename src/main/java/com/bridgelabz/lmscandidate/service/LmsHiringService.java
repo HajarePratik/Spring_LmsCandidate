@@ -83,6 +83,20 @@ public class LmsHiringService  implements ILmsHiringService {
 			throw new LmsException(400,"Hiring Candidate Not found");
 		}
 	}
+	@Override
+	public ResponseDTO updateCandidateHiringStatus(String token, int id, String keyText) 
+	{
+		Optional<LmsHiring> isUserPresent = hiringRespository.findById(id);
+		if (isUserPresent.isPresent()) {
+			isUserPresent.get().setStatus(keyText);
+			hiringRespository.save(isUserPresent.get());
+			return new ResponseDTO("Status of Hiring Successfully Updated", isUserPresent);
+		} 
+		else
+		{
+			throw new LmsException(400, "Candidate to be Updated Not found");
+		}
+	}
 
 	
 

@@ -7,6 +7,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.Valid;
+
+import com.bridgelabz.lmscandidate.dto.LmsBankInfoDTO;
 
 import lombok.Data;
 
@@ -28,5 +31,27 @@ public @Data class LmsBankInfo {
 	public String aadharPath;
 	public LocalDate creatorStamp;
 	public LocalDate updateStamp;
+	
+	public LmsBankInfo() {
+	
+	}
+
+	public LmsBankInfo(int id, @Valid LmsBankInfoDTO bankDTO) 
+	{
+		this.panNumber = bankDTO.getPanNumber();
+		this.aadharNumber = bankDTO.getAadharNumber();
+		this.bankName = bankDTO.getBankName();
+		this.bankAccountNumber = bankDTO.getBankAccountNumber();
+		this.ifscCode = bankDTO.getIfscCode();
+		this.passbookPath = bankDTO.getPassbookPath();
+		this.panPath = bankDTO.getPanPath();
+		this.aadharPath = bankDTO.getAadharPath();
+		this.creatorStamp = bankDTO.getCreatorStamp();
+		this.updateStamp = bankDTO.getUpdateStamp();
+	}
+	
+	
+	
+	
 
 }

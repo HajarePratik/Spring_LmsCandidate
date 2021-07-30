@@ -17,4 +17,6 @@ public interface ILmsHiringService {
 	
 	public ResponseDTO deleteCandidateHiringDataById(String token);
 
+	public ResponseDTO updateCandidateHiringStatus(String token, int id, String keyText);
+
 }

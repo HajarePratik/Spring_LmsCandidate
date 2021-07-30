@@ -49,7 +49,5 @@ public @Data class LmsQualificationInfo {
 		this.course = qualificationDTO.getCourse();
 	}
 	
-	
-	
 
 }

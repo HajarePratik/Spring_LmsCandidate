@@ -32,6 +32,11 @@ public class LmsCandidateController {
 		ResponseDTO resDTO = candidateService.getCandidateData(); 
 		return new ResponseEntity<ResponseDTO>(resDTO, HttpStatus.OK);
 	}
+	@GetMapping("/getcandidate/{token}")
+	public ResponseEntity<ResponseDTO> getCandidateDetail(String token, @PathVariable int id) {
+		ResponseDTO respDTO = candidateService.getAllCandidateDetail(token, id);
+		return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
+	}
 	@PostMapping("/createcandidate")
 	public ResponseEntity<ResponseDTO> createCandidateData(@RequestBody LmsCandidateDTO candidateDTO)
 	{
@@ -54,4 +59,10 @@ public class LmsCandidateController {
 		return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
 	}
 
+	@PutMapping("/updatecandidatestatus/{id}/{keyText}")
+	public ResponseEntity<ResponseDTO> updateCandidateStatus(String token, @PathVariable int id,
+			@PathVariable String keyText) {
+		ResponseDTO respDTO = candidateService.updateCandidateStatus(token, id, keyText);
+		return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
+	}
 }

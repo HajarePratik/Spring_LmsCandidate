@@ -30,6 +30,13 @@ public class LmsCandidateService implements ILmsCandidateService {
 		List<LmsCandidate> isCandidatePresent = candidateRespository.findAll();
 		return new ResponseDTO("List of all Candidate : ", isCandidatePresent);
 	}
+	
+	@Override
+	public ResponseDTO getAllCandidateDetail(String token, int id) {
+		Optional<LmsCandidate> isUserPresent = candidateRespository.findById(id);
+		LmsCandidate candidates = isUserPresent.get();
+		return new ResponseDTO("List of Candidates Details : ", candidates);
+	}
 
 	@Override
 	public ResponseDTO createCandidateData(LmsCandidateDTO candidateDTO) 
@@ -79,11 +86,26 @@ public class LmsCandidateService implements ILmsCandidateService {
 		if(isUserPresent.isPresent())
 		{
 			candidateRespository.deleteById(tokenid);
-			return new ResponseDTO("Deleted Successfully", HttpStatus.ACCEPTED);
+			return new ResponseDTO("Deleted Successfully", HttpStatus.OK);
 		}
 		else
 		{
-			throw new LmsException(400,"Hiring Candidate Not found");
+			throw new LmsException(400,"Delete Candidate Not found");
+		}
+	}
+
+	@Override
+	public ResponseDTO updateCandidateStatus(String token, int id, String keyText) 
+	{
+		Optional<LmsCandidate> isUserPresent = candidateRespository.findById(id);
+		if (isUserPresent.isPresent()) {
+			isUserPresent.get().setStatus(keyText);
+			candidateRespository.save(isUserPresent.get());
+			return new ResponseDTO("Status of Hiring Successfully Updated", isUserPresent);
+		} 
+		else 
+		{
+			throw new LmsException(400, "Candidate to be Updated Not found");
 		}
 	}
 

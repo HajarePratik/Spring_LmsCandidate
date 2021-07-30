@@ -52,5 +52,12 @@ public class LmsHiringController {
 		ResponseDTO respDTO = new ResponseDTO("Deleted Candidate with id : ", token);
 		return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
 	}
+	
+	@PutMapping("/updatestatushiring/{id}/{keyText}")
+	public ResponseEntity<ResponseDTO> updatestatusHiring(String token, @PathVariable int id,
+			@PathVariable String keyText) {
+		ResponseDTO respDTO = hiringService.updateCandidateHiringStatus(token, id, keyText);
+		return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
+	}
 
 }
