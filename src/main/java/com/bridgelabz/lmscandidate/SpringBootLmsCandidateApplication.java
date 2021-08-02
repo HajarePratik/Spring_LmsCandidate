@@ -10,7 +10,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EnableJpaRepositories("com.bridgelabz.lmscandidate.respository")
 public class SpringBootLmsCandidateApplication 
 {
-
 	public static void main(String[] args) {
 		SpringApplication.run(SpringBootLmsCandidateApplication.class, args);
 	}

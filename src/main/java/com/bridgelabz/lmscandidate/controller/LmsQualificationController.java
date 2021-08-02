@@ -1,13 +1,10 @@
 package com.bridgelabz.lmscandidate.controller;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -42,16 +39,16 @@ public class LmsQualificationController {
 		return new ResponseEntity<ResponseDTO>(resDTO,HttpStatus.OK);
 	}
 	
-	@PutMapping("/updatequalification/{token}")
-	public ResponseEntity<ResponseDTO> updateCandidateHiringDataById(@PathVariable String token,@Valid @RequestBody LmsQualificationInfoDTO qualificationDTO) {
-		ResponseDTO respDTO = qualificationService.updateQualificationDataById(token,qualificationDTO);
+	@PutMapping("/updatequalification/{id}")
+	public ResponseEntity<ResponseDTO> updateCandidateHiringDataById(String token,int id,@RequestBody LmsQualificationInfoDTO qualificationDTO) {
+		ResponseDTO respDTO = qualificationService.updateQualificationDataById(token,id,qualificationDTO);
 		return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
 	}
 
-	@DeleteMapping("/deletequalification/{token}")
-	public ResponseEntity<ResponseDTO> deleteCandidateHiringDataById(@PathVariable String token) {
-		qualificationService.deleteQualificationDataById(token);
-		ResponseDTO respDTO = new ResponseDTO("Deleted Candidate with id : ", token);
+	@DeleteMapping("/deletequalification/{id}")
+	public ResponseEntity<ResponseDTO> deleteCandidateHiringDataById(String token,int id) {
+		qualificationService.deleteQualificationDataById(token,id);
+		ResponseDTO respDTO = new ResponseDTO("Deleted Candidate with id : ", id);
 		return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
 	}
 }

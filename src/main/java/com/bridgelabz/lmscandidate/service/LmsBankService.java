@@ -9,7 +9,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import com.bridgelabz.lmscandidate.dto.LmsBankInfoDTO;
 import com.bridgelabz.lmscandidate.dto.ResponseDTO;
@@ -41,7 +40,7 @@ public class LmsBankService implements ILmsBankService{
 	}
 
 	@Override
-	public ResponseDTO updateBankInfoDataById(String token, @PathVariable int id,LmsBankInfoDTO bankDTO)
+	public ResponseDTO updateBankInfoDataById(String token, int id,LmsBankInfoDTO bankDTO)
 	{
 		Optional<LmsBankInfo> isUserPresent = bankRespository.findById(id);
 		if (isUserPresent.isPresent()) 

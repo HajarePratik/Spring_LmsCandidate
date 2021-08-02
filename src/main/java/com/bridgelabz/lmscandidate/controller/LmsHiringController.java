@@ -1,6 +1,5 @@
 package com.bridgelabz.lmscandidate.controller;
 
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,31 +31,38 @@ public class LmsHiringController {
 		return new ResponseEntity<ResponseDTO>(resDTO, HttpStatus.OK);
 	}
 	@PostMapping("/createcandidatehiring")
-	public ResponseEntity<ResponseDTO> createCandidateHiringData(@RequestBody LmsHiringDTO hiringDTO)
+	public ResponseEntity<ResponseDTO> createCandidateHiringData(String token,@RequestBody LmsHiringDTO hiringDTO)
 	{
 
-		ResponseDTO candidateData = hiringService.createCandidateHiringData(hiringDTO);
+		ResponseDTO candidateData = hiringService.createCandidateHiringData(token,hiringDTO);
 		ResponseDTO resDTO = new ResponseDTO("Create Candidate Details Sucessfully :"+candidateData, hiringDTO);
 		return new ResponseEntity<ResponseDTO>(resDTO,HttpStatus.OK);
 	}
 	
-	@PutMapping("/updatecandidatehiring/{token}")
-	public ResponseEntity<ResponseDTO> updateCandidateHiringDataById(@PathVariable String token,@Valid @RequestBody LmsHiringDTO hiringDTO) {
-		ResponseDTO respDTO = hiringService.updateCandidateHiringDataById(token,hiringDTO);
+	@PutMapping("/updatecandidatehiring/{id}")
+	public ResponseEntity<ResponseDTO> updateCandidateHiringDataById(String token,int id,@RequestBody LmsHiringDTO hiringDTO) {
+		ResponseDTO respDTO = hiringService.updateCandidateHiringDataById(token,id,hiringDTO);
 		return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
 	}
 
-	@DeleteMapping("/deletecandidatehiring/{token}")
-	public ResponseEntity<ResponseDTO> deleteCandidateHiringDataById(@PathVariable String token) {
-		hiringService.deleteCandidateHiringDataById(token);
+	@DeleteMapping("/deletecandidatehiring/{id}")
+	public ResponseEntity<ResponseDTO> deleteCandidateHiringDataById(String token,int id) 
+	{
+		hiringService.deleteCandidateHiringDataById(token,id);
 		ResponseDTO respDTO = new ResponseDTO("Deleted Candidate with id : ", token);
 		return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
 	}
 	
 	@PutMapping("/updatestatushiring/{id}/{keyText}")
-	public ResponseEntity<ResponseDTO> updatestatusHiring(String token, @PathVariable int id,
-			@PathVariable String keyText) {
+	public ResponseEntity<ResponseDTO> updatestatusHiring(String token, @PathVariable int id,@PathVariable String keyText) {
 		ResponseDTO respDTO = hiringService.updateCandidateHiringStatus(token, id, keyText);
+		return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
+	}
+	
+	@PostMapping("/jobofferMail")
+	public ResponseEntity<ResponseDTO> jobofferMail(String token, @RequestBody String email)
+	{
+		ResponseDTO respDTO = hiringService.joboffermail(token, email);
 		return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
 	}
 

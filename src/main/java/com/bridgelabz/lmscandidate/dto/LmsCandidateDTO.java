@@ -2,9 +2,6 @@ package com.bridgelabz.lmscandidate.dto;
 
 import java.time.LocalDate;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.PastOrPresent;
-
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.sun.istack.NotNull;
@@ -31,8 +28,6 @@ public @Data class LmsCandidateDTO {
 	@NotNull
 	public String hiredCity;
 	
-	@NotEmpty(message = "hiredDate should Not be Empty")
-	@PastOrPresent(message = "hiredDate should be past or todays date")
 	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
 	public LocalDate hiredDate;
 	
@@ -60,8 +55,6 @@ public @Data class LmsCandidateDTO {
 	@NotNull
 	public String status;
 	
-	@NotEmpty(message = "joinDate should Not be Empty")
-	@PastOrPresent(message = "joinDate should be past or todays date")
 	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
 	public LocalDate joindate;
 	

@@ -14,7 +14,7 @@ import com.bridgelabz.lmscandidate.dto.ResponseDTO;
 import com.bridgelabz.lmscandidate.exception.LmsException;
 import com.bridgelabz.lmscandidate.model.LmsHiring;
 import com.bridgelabz.lmscandidate.respository.LmsHiringRepository;
-import com.bridgelabz.lmscandidate.util.TokenUtil;
+import com.bridgelabz.lmscandidate.util.JMSUtil;
 
 @Service
 public class LmsHiringService  implements ILmsHiringService {
@@ -32,17 +32,18 @@ public class LmsHiringService  implements ILmsHiringService {
 		return new ResponseDTO("List of all Hiring Candidate : ", isCandidatePresent);
 	}
 	@Override
-	public ResponseDTO createCandidateHiringData(LmsHiringDTO hiringDTO) 
+	public ResponseDTO createCandidateHiringData(String token,LmsHiringDTO hiringDTO) 
 	{
+		
 		LmsHiring candidate = modelmapper.map(hiringDTO, LmsHiring.class);
 		hiringRespository.save(candidate);
 		return new ResponseDTO("Candidate is Added :", candidate);
 	}
 
 	@Override
-	public ResponseDTO updateCandidateHiringDataById(String token, LmsHiringDTO hiringDTO) {
-		int tokenid = TokenUtil.decodeToken(token);
-		Optional<LmsHiring> isUserPresent = hiringRespository.findById(tokenid);
+	public ResponseDTO updateCandidateHiringDataById(String token, int id, LmsHiringDTO hiringDTO) {
+		
+		Optional<LmsHiring> isUserPresent = hiringRespository.findById(id);
 		if (isUserPresent.isPresent()) 
 		{
 			isUserPresent.get().setFirstName(hiringDTO.getFirstName());
@@ -70,12 +71,13 @@ public class LmsHiringService  implements ILmsHiringService {
 	}
 
 	@Override
-	public ResponseDTO deleteCandidateHiringDataById(String token) {
-		int tokenid = TokenUtil.decodeToken(token);
-		Optional<LmsHiring> isUserPresent = hiringRespository.findById(tokenid);
+	public ResponseDTO deleteCandidateHiringDataById(String token,int id)
+	{
+
+		Optional<LmsHiring> isUserPresent = hiringRespository.findById(id);
 		if(isUserPresent.isPresent())
 		{
-			hiringRespository.deleteById(tokenid);
+			hiringRespository.deleteById(id);
 			return new ResponseDTO("Deleted Successfully", HttpStatus.ACCEPTED);
 		}
 		else
@@ -87,7 +89,8 @@ public class LmsHiringService  implements ILmsHiringService {
 	public ResponseDTO updateCandidateHiringStatus(String token, int id, String keyText) 
 	{
 		Optional<LmsHiring> isUserPresent = hiringRespository.findById(id);
-		if (isUserPresent.isPresent()) {
+		if (isUserPresent.isPresent())
+		{
 			isUserPresent.get().setStatus(keyText);
 			hiringRespository.save(isUserPresent.get());
 			return new ResponseDTO("Status of Hiring Successfully Updated", isUserPresent);
@@ -95,6 +98,24 @@ public class LmsHiringService  implements ILmsHiringService {
 		else
 		{
 			throw new LmsException(400, "Candidate to be Updated Not found");
+		}
+	}
+	
+	@Override
+	public ResponseDTO joboffermail(String token, String email) 
+	{
+	
+		Optional<LmsHiring> isUserPresent = hiringRespository.findAllByemail(email);
+		boolean isPresent = isUserPresent.get().getEmail().matches(email);
+		if (isPresent == true) 
+		{
+			String body = "This is a Candidate Job Offer Notification";
+			JMSUtil.sendEmail(isUserPresent.get().getEmail(), "Job Offer", body);
+			return new ResponseDTO("Email is Successfully Sent to ", email);
+		} 
+		else 
+		{
+			throw new LmsException(400, "Email Address not Found");
 		}
 	}
 

@@ -1,7 +1,5 @@
 package com.bridgelabz.lmscandidate.controller;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +32,7 @@ public class LmsBankController {
 		ResponseDTO resDTO = bankService.getBankInfo(); 
 		return new ResponseEntity<ResponseDTO>(resDTO, HttpStatus.OK);
 	}
-	@PostMapping("/createcandidate")
+	@PostMapping("/createbankdetails")
 	public ResponseEntity<ResponseDTO> createBankInfo(@RequestBody LmsBankInfoDTO bankDTO)
 	{
 
@@ -43,15 +41,15 @@ public class LmsBankController {
 		return new ResponseEntity<ResponseDTO>(resDTO,HttpStatus.OK);
 	}
 	
-	@PutMapping("/updatecandidate/{token}")
-	public ResponseEntity<ResponseDTO> updateBankInfoDataById(@PathVariable String token,@PathVariable int id,@Valid @RequestBody LmsBankInfoDTO bankDTO) 
+	@PutMapping("/updatebankdetails/{id}")
+	public ResponseEntity<ResponseDTO> updateBankInfoDataById(String token,@PathVariable int id,@RequestBody LmsBankInfoDTO bankDTO) 
 	{
 		ResponseDTO respDTO = bankService.updateBankInfoDataById(token,id,bankDTO);
 		return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
 	}
 
-	@DeleteMapping("/deletecandicate/{token}")
-	public ResponseEntity<ResponseDTO> deleteBankInfoDataById(@PathVariable String token,@PathVariable int id) 
+	@DeleteMapping("/deletebankdetails/{id}")
+	public ResponseEntity<ResponseDTO> deleteBankInfoDataById(String token,@PathVariable int id) 
 	{
 		bankService.deleteBankInfoDataById(token,id);
 		ResponseDTO respDTO = new ResponseDTO("Deleted Candidate with id : ", token);

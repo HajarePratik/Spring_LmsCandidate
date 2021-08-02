@@ -11,12 +11,14 @@ public interface ILmsHiringService {
 
 	public ResponseDTO getCandidateHiringData();
 	
-	public ResponseDTO createCandidateHiringData(LmsHiringDTO hiringDTO);
+	public ResponseDTO createCandidateHiringData(String token,LmsHiringDTO hiringDTO);
 
-	public ResponseDTO updateCandidateHiringDataById(String token,LmsHiringDTO hiringDTO);
+	public ResponseDTO updateCandidateHiringDataById(String token, int id,LmsHiringDTO hiringDTO);
 	
-	public ResponseDTO deleteCandidateHiringDataById(String token);
+	public ResponseDTO deleteCandidateHiringDataById(String token,int id);
 
 	public ResponseDTO updateCandidateHiringStatus(String token, int id, String keyText);
+
+	ResponseDTO joboffermail(String token, String email);
 
 }

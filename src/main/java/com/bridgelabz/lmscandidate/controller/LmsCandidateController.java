@@ -1,6 +1,5 @@
 package com.bridgelabz.lmscandidate.controller;
 
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,7 +17,6 @@ import com.bridgelabz.lmscandidate.dto.LmsCandidateDTO;
 import com.bridgelabz.lmscandidate.dto.ResponseDTO;
 import com.bridgelabz.lmscandidate.service.ILmsCandidateService;
 
-
 @RestController
 @RequestMapping("/lmscandidate")
 public class LmsCandidateController {
@@ -32,36 +30,34 @@ public class LmsCandidateController {
 		ResponseDTO resDTO = candidateService.getCandidateData(); 
 		return new ResponseEntity<ResponseDTO>(resDTO, HttpStatus.OK);
 	}
-	@GetMapping("/getcandidate/{token}")
+	@GetMapping("/getcandidate/{id}")
 	public ResponseEntity<ResponseDTO> getCandidateDetail(String token, @PathVariable int id) {
 		ResponseDTO respDTO = candidateService.getAllCandidateDetail(token, id);
 		return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
 	}
 	@PostMapping("/createcandidate")
-	public ResponseEntity<ResponseDTO> createCandidateData(@RequestBody LmsCandidateDTO candidateDTO)
+	public ResponseEntity<ResponseDTO> createCandidateData(String token,@RequestBody LmsCandidateDTO candidateDTO)
 	{
-
-		ResponseDTO candidateData = candidateService.createCandidateData(candidateDTO);
+		ResponseDTO candidateData = candidateService.createCandidateData(token,candidateDTO);
 		ResponseDTO resDTO = new ResponseDTO("Create Candidate Details Sucessfully :"+candidateData, candidateDTO);
 		return new ResponseEntity<ResponseDTO>(resDTO,HttpStatus.OK);
 	}
-	
-	@PutMapping("/updatecandidate/{token}")
-	public ResponseEntity<ResponseDTO> updateCandidateDataById(@PathVariable String token,@Valid @RequestBody LmsCandidateDTO candidateDTO) {
-		ResponseDTO respDTO = candidateService.updateCandidateDataById(token,candidateDTO);
+	@PutMapping("/updatecandidate/{id}")
+	public ResponseEntity<ResponseDTO> updateCandidateDataById(String token,@PathVariable int id, @RequestBody LmsCandidateDTO candidateDTO) {
+		ResponseDTO respDTO = candidateService.updateCandidateDataById(token,id,candidateDTO);
 		return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
 	}
 
-	@DeleteMapping("/deletecandicate/{token}")
-	public ResponseEntity<ResponseDTO> deleteCandidateHiringDataById(@PathVariable String token) {
-		candidateService.deleteCandidateDataById(token);
-		ResponseDTO respDTO = new ResponseDTO("Deleted Candidate with id : ", token);
+	@DeleteMapping("/deletecandicate/{id}")
+	public ResponseEntity<ResponseDTO> deleteCandidateHiringDataById(String token,@PathVariable int id) {
+		candidateService.deleteCandidateDataById(token,id);
+		ResponseDTO respDTO = new ResponseDTO("Deleted Candidate with id : ", id);
 		return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
 	}
 
 	@PutMapping("/updatecandidatestatus/{id}/{keyText}")
-	public ResponseEntity<ResponseDTO> updateCandidateStatus(String token, @PathVariable int id,
-			@PathVariable String keyText) {
+	public ResponseEntity<ResponseDTO> updateCandidateStatus(String token, @PathVariable int id, @PathVariable String keyText) 
+	{
 		ResponseDTO respDTO = candidateService.updateCandidateStatus(token, id, keyText);
 		return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
 	}

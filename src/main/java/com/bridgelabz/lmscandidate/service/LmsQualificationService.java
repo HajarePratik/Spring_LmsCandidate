@@ -13,7 +13,6 @@ import com.bridgelabz.lmscandidate.dto.ResponseDTO;
 import com.bridgelabz.lmscandidate.exception.LmsException;
 import com.bridgelabz.lmscandidate.model.LmsQualificationInfo;
 import com.bridgelabz.lmscandidate.respository.LmsQualificationRepository;
-import com.bridgelabz.lmscandidate.util.TokenUtil;
 
 @Service
 public class LmsQualificationService implements ILmsQualificationService{
@@ -39,18 +38,17 @@ public class LmsQualificationService implements ILmsQualificationService{
 	}
 
 	@Override
-	public ResponseDTO updateQualificationDataById(String token, LmsQualificationInfoDTO qualificationDTO) {
-		// TODO Auto-generated method stub
+	public ResponseDTO updateQualificationDataById(String token,int id, LmsQualificationInfoDTO qualificationDTO) {
 		return null;
 	}
 
 	@Override
-	public ResponseDTO deleteQualificationDataById(String token) {
-		int tokenid = TokenUtil.decodeToken(token);
-		Optional<LmsQualificationInfo> isUserPresent = qualificationRespository.findById(tokenid);
+	public ResponseDTO deleteQualificationDataById(String token,int id) 
+	{
+		Optional<LmsQualificationInfo> isUserPresent = qualificationRespository.findById(id);
 		if(isUserPresent.isPresent())
 		{
-			qualificationRespository.deleteById(tokenid);
+			qualificationRespository.deleteById(id);
 			return new ResponseDTO("Deleted Successfully", HttpStatus.ACCEPTED);
 		}
 		else

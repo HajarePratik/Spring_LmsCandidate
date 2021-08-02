@@ -1,13 +1,11 @@
 package com.bridgelabz.lmscandidate.controller;
 
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -41,18 +39,18 @@ public class LmsStatusController
 		return new ResponseEntity<ResponseDTO>(resDTO,HttpStatus.OK);
 	}
 	
-	@PutMapping("/updatestatus/{token}")
-	public ResponseEntity<ResponseDTO> updateStatusDataById(@PathVariable String token,@Valid @RequestBody LmsStatusDTO statusDTO)
+	@PutMapping("/updatestatus/{id}")
+	public ResponseEntity<ResponseDTO> updateStatusDataById(String token,int id,@RequestBody LmsStatusDTO statusDTO)
 	{
-		ResponseDTO respDTO = statusService.updateStatusDataById(token,statusDTO);
+		ResponseDTO respDTO = statusService.updateStatusDataById(token,id,statusDTO);
 		return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
 	}
 
-	@DeleteMapping("/deletestatus/{token}")
-	public ResponseEntity<ResponseDTO> deleteStatusDataById(@PathVariable String token) 
+	@DeleteMapping("/deletestatus/{id}")
+	public ResponseEntity<ResponseDTO> deleteStatusDataById(String token,int id) 
 	{
-		statusService.deleteStatusDataById(token);
-		ResponseDTO respDTO = new ResponseDTO("Deleted Status Candidate with id : ", token);
+		statusService.deleteStatusDataById(token,id);
+		ResponseDTO respDTO = new ResponseDTO("Deleted Status Candidate with id : ", id);
 		return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
 	}
 }

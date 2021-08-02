@@ -13,7 +13,6 @@ import com.bridgelabz.lmscandidate.dto.ResponseDTO;
 import com.bridgelabz.lmscandidate.exception.LmsException;
 import com.bridgelabz.lmscandidate.model.LmsCandidate;
 import com.bridgelabz.lmscandidate.respository.LmsCandidateRepository;
-import com.bridgelabz.lmscandidate.util.TokenUtil;
 
 @Service
 public class LmsCandidateService implements ILmsCandidateService {
@@ -39,7 +38,7 @@ public class LmsCandidateService implements ILmsCandidateService {
 	}
 
 	@Override
-	public ResponseDTO createCandidateData(LmsCandidateDTO candidateDTO) 
+	public ResponseDTO createCandidateData(String token,LmsCandidateDTO candidateDTO) 
 	{
 		LmsCandidate candidate = modelmapper.map(candidateDTO, LmsCandidate.class);
 		candidateRespository.save(candidate);
@@ -47,9 +46,10 @@ public class LmsCandidateService implements ILmsCandidateService {
 	}
 
 	@Override
-	public ResponseDTO updateCandidateDataById(String token, LmsCandidateDTO candidateDTO) {
-		int tokenid = TokenUtil.decodeToken(token);
-		Optional<LmsCandidate> isUserPresent = candidateRespository.findById(tokenid);
+	public ResponseDTO updateCandidateDataById(String token,int id, LmsCandidateDTO candidateDTO) 
+	{
+	
+		Optional<LmsCandidate> isUserPresent = candidateRespository.findById(id);
 		if (isUserPresent.isPresent()) 
 		{
 			isUserPresent.get().setFirstName(candidateDTO.getFirstName());
@@ -80,12 +80,13 @@ public class LmsCandidateService implements ILmsCandidateService {
 	}
 
 	@Override
-	public ResponseDTO deleteCandidateDataById(String token) {
-		int tokenid = TokenUtil.decodeToken(token);
-		Optional<LmsCandidate> isUserPresent = candidateRespository.findById(tokenid);
+	public ResponseDTO deleteCandidateDataById(String token,int id)
+	{
+	
+		Optional<LmsCandidate> isUserPresent = candidateRespository.findById(id);
 		if(isUserPresent.isPresent())
 		{
-			candidateRespository.deleteById(tokenid);
+			candidateRespository.deleteById(id);
 			return new ResponseDTO("Deleted Successfully", HttpStatus.OK);
 		}
 		else
@@ -98,7 +99,8 @@ public class LmsCandidateService implements ILmsCandidateService {
 	public ResponseDTO updateCandidateStatus(String token, int id, String keyText) 
 	{
 		Optional<LmsCandidate> isUserPresent = candidateRespository.findById(id);
-		if (isUserPresent.isPresent()) {
+		if (isUserPresent.isPresent()) 
+		{
 			isUserPresent.get().setStatus(keyText);
 			candidateRespository.save(isUserPresent.get());
 			return new ResponseDTO("Status of Hiring Successfully Updated", isUserPresent);
