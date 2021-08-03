@@ -14,16 +14,19 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Component;
 
 @Component
-public class JMSUtil {
-
+public class JMSUtil 
+{
 	
 	public static void sendEmail(String toEmail, String subject, String body) {
 		JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+		System.out.println(mailSender);
 		
 	    String emailid = System.getenv("email");
+	    System.out.println(emailid);
 	    mailSender.setUsername(emailid);
 	 
 	    String password = System.getenv("password");
+	    System.out.println(password);
 	    mailSender.setPassword(password);
 	    
 		Properties props = mailSender.getJavaMailProperties();

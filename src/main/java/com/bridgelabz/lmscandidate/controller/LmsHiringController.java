@@ -60,10 +60,15 @@ public class LmsHiringController {
 	}
 	
 	@PostMapping("/jobofferMail")
-	public ResponseEntity<ResponseDTO> jobofferMail(String token, @RequestBody String email)
+	public ResponseEntity<ResponseDTO> jobOfferMail(String token, @RequestBody String email)
 	{
-		ResponseDTO respDTO = hiringService.joboffermail(token, email);
+		ResponseDTO respDTO = hiringService.jobOfferMail(token, email);
 		return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
 	}
 
+	@GetMapping("/getcandidatecount")
+	public ResponseEntity<ResponseDTO> getcount(String token) {
+		ResponseDTO respDTO = hiringService.getCandidateCount(token);
+		return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
+	}
 }

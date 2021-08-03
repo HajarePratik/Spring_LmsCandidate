@@ -25,7 +25,8 @@ public class LmsQualificationService implements ILmsQualificationService{
 	ModelMapper modelmapper;
 
 	@Override
-	public ResponseDTO getQualificationData() {
+	public ResponseDTO getQualificationData() 
+	{
 		List<LmsQualificationInfo> isCandidatePresent = qualificationRespository.findAll();
 		return new ResponseDTO("List of all Qualification Candidate : ", isCandidatePresent);
 	}
@@ -39,7 +40,26 @@ public class LmsQualificationService implements ILmsQualificationService{
 
 	@Override
 	public ResponseDTO updateQualificationDataById(String token,int id, LmsQualificationInfoDTO qualificationDTO) {
-		return null;
+		Optional<LmsQualificationInfo> isUserPresent = qualificationRespository.findById(id);
+		if (isUserPresent.isPresent()) 
+		{
+			isUserPresent.get().setDegree(qualificationDTO.getDegree());
+			isUserPresent.get().setFiled(qualificationDTO.getFiled());
+			isUserPresent.get().setYearOfPassing(qualificationDTO.getYearOfPassing());
+			isUserPresent.get().setFinalPercentage(qualificationDTO.getFinalPercentage());
+			isUserPresent.get().setAggrPercentage(qualificationDTO.getAggrPercentage());
+			isUserPresent.get().setEnggPercentage(qualificationDTO.getEnggPercentage());
+			isUserPresent.get().setFinalCertification(qualificationDTO.getFinalCertification());
+			isUserPresent.get().setTrainingInstitute(qualificationDTO.getTrainingInstitute());
+			isUserPresent.get().setTrainingDuration(qualificationDTO.getTrainingDuration());
+			isUserPresent.get().setCourse(qualificationDTO.getCourse());
+			qualificationRespository.save(isUserPresent.get());
+			return new ResponseDTO("Hiring Candidate Qualification Data Successfully Updated", isUserPresent);
+		}
+		else
+		{
+			throw new LmsException(400,"Hiring Candidate Qualification Not found");
+		}
 	}
 
 	@Override

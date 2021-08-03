@@ -1,6 +1,7 @@
 package com.bridgelabz.lmscandidate.service;
 
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,6 +16,7 @@ import com.bridgelabz.lmscandidate.exception.LmsException;
 import com.bridgelabz.lmscandidate.model.LmsHiring;
 import com.bridgelabz.lmscandidate.respository.LmsHiringRepository;
 import com.bridgelabz.lmscandidate.util.JMSUtil;
+
 
 @Service
 public class LmsHiringService  implements ILmsHiringService {
@@ -102,7 +104,7 @@ public class LmsHiringService  implements ILmsHiringService {
 	}
 	
 	@Override
-	public ResponseDTO joboffermail(String token, String email) 
+	public ResponseDTO jobOfferMail(String token, String email) 
 	{
 	
 		Optional<LmsHiring> isUserPresent = hiringRespository.findAllByemail(email);
@@ -117,6 +119,22 @@ public class LmsHiringService  implements ILmsHiringService {
 		{
 			throw new LmsException(400, "Email Address not Found");
 		}
+					
+					
+	}
+	
+	
+	@Override
+	public ResponseDTO getCandidateCount(String token)
+	{
+		List<LmsHiring> isUserPresent = hiringRespository.findAll();
+		long i = 0;
+		for (Iterator<LmsHiring> iterator = isUserPresent.iterator(); iterator.hasNext();) 
+		{
+			 iterator.next();
+			 i++;
+		}
+		return new ResponseDTO("Number of Candidates is Present: ", i);
 	}
 
 	

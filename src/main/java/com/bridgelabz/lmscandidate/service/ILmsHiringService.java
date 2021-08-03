@@ -19,6 +19,8 @@ public interface ILmsHiringService {
 
 	public ResponseDTO updateCandidateHiringStatus(String token, int id, String keyText);
 
-	ResponseDTO joboffermail(String token, String email);
+	ResponseDTO jobOfferMail(String token, String email);
+
+	ResponseDTO getCandidateCount(String token);
 
 }
