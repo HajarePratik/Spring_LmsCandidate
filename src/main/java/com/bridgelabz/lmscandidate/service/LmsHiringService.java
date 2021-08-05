@@ -16,6 +16,7 @@ import com.bridgelabz.lmscandidate.exception.LmsException;
 import com.bridgelabz.lmscandidate.model.LmsHiring;
 import com.bridgelabz.lmscandidate.respository.LmsHiringRepository;
 import com.bridgelabz.lmscandidate.util.JMSUtil;
+import com.bridgelabz.lmscandidate.util.TokenUtil;
 
 
 @Service
@@ -43,9 +44,9 @@ public class LmsHiringService  implements ILmsHiringService {
 	}
 
 	@Override
-	public ResponseDTO updateCandidateHiringDataById(String token, int id, LmsHiringDTO hiringDTO) {
-		
-		Optional<LmsHiring> isUserPresent = hiringRespository.findById(id);
+	public ResponseDTO updateCandidateHiringDataById(String token, LmsHiringDTO hiringDTO) {
+		int tokenid = TokenUtil.decodeToken(token);
+		Optional<LmsHiring> isUserPresent = hiringRespository.findById(tokenid);
 		if (isUserPresent.isPresent()) 
 		{
 			isUserPresent.get().setFirstName(hiringDTO.getFirstName());
@@ -73,13 +74,14 @@ public class LmsHiringService  implements ILmsHiringService {
 	}
 
 	@Override
-	public ResponseDTO deleteCandidateHiringDataById(String token,int id)
+	public ResponseDTO deleteCandidateHiringDataById(String token)
 	{
 
-		Optional<LmsHiring> isUserPresent = hiringRespository.findById(id);
+		int tokenid = TokenUtil.decodeToken(token);
+		Optional<LmsHiring> isUserPresent = hiringRespository.findById(tokenid);
 		if(isUserPresent.isPresent())
 		{
-			hiringRespository.deleteById(id);
+			hiringRespository.deleteById(tokenid);
 			return new ResponseDTO("Deleted Successfully", HttpStatus.ACCEPTED);
 		}
 		else
@@ -88,9 +90,10 @@ public class LmsHiringService  implements ILmsHiringService {
 		}
 	}
 	@Override
-	public ResponseDTO updateCandidateHiringStatus(String token, int id, String keyText) 
+	public ResponseDTO updateCandidateHiringStatus(String token, String keyText) 
 	{
-		Optional<LmsHiring> isUserPresent = hiringRespository.findById(id);
+		int tokenid = TokenUtil.decodeToken(token);
+		Optional<LmsHiring> isUserPresent = hiringRespository.findById(tokenid);
 		if (isUserPresent.isPresent())
 		{
 			isUserPresent.get().setStatus(keyText);

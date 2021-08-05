@@ -11,15 +11,15 @@ public interface ILmsCandidateService {
 
 	public ResponseDTO getCandidateData();
 	
-	public ResponseDTO getAllCandidateDetail(String token, int id);
+	public ResponseDTO getAllCandidateDetail(String token);
 	
 	public ResponseDTO createCandidateData(String token,LmsCandidateDTO candidateDTO);
 
-	public ResponseDTO updateCandidateDataById(String token,int id, LmsCandidateDTO candidateDTO);
+	public ResponseDTO updateCandidateDataById(String token, LmsCandidateDTO candidateDTO);
 	
-	public ResponseDTO deleteCandidateDataById(String token,int id);
+	public ResponseDTO deleteCandidateDataById(String token);
 
-	public ResponseDTO updateCandidateStatus(String token, int id, String keyText);
+	public ResponseDTO updateCandidateStatus(String token, String keyText);
 
 	
 }

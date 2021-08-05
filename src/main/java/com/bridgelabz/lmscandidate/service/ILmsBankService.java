@@ -13,9 +13,9 @@ public interface ILmsBankService
 	
 	public ResponseDTO createBankInfo(LmsBankInfoDTO bankDTO);
 
-	public ResponseDTO updateBankInfoDataById(String token,int id,LmsBankInfoDTO bankDTO);
+	public ResponseDTO updateBankInfoDataById(String token,LmsBankInfoDTO bankDTO);
 	
-	public ResponseDTO deleteBankInfoDataById(String token,int id);
+	public ResponseDTO deleteBankInfoDataById(String token);
 
 	
 	

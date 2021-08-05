@@ -14,6 +14,7 @@ import com.bridgelabz.lmscandidate.exception.LmsException;
 import com.bridgelabz.lmscandidate.model.LmsStatus;
 
 import com.bridgelabz.lmscandidate.respository.LmsStatusRepository;
+import com.bridgelabz.lmscandidate.util.TokenUtil;
 
 
 @Service
@@ -40,10 +41,10 @@ public class LmsStatusService implements ILmsStatusService {
 	}
 
 	@Override
-	public ResponseDTO updateStatusDataById(String token,int id, LmsStatusDTO statusDTO)
+	public ResponseDTO updateStatusDataById(String token, LmsStatusDTO statusDTO)
 	{
-
-		Optional<LmsStatus> isUserPresent = statusRespository.findById(id);
+		int tokenid = TokenUtil.decodeToken(token);
+		Optional<LmsStatus> isUserPresent = statusRespository.findById(tokenid);
 		if (isUserPresent.isPresent()) 
 		{
 			isUserPresent.get().setCreatedUser(statusDTO.getCreatedUser());
@@ -64,13 +65,14 @@ public class LmsStatusService implements ILmsStatusService {
 	}
 
 	@Override
-	public ResponseDTO deleteStatusDataById(String token,int id)
+	public ResponseDTO deleteStatusDataById(String token)
 	{
-		
-		Optional<LmsStatus> isUserPresent = statusRespository.findById(id);
+		int tokenid = TokenUtil.decodeToken(token);
+
+		Optional<LmsStatus> isUserPresent = statusRespository.findById(tokenid);
 		if(isUserPresent.isPresent())
 		{
-			statusRespository.deleteById(id);
+			statusRespository.deleteById(tokenid);
 			return new ResponseDTO("Deleted Successfully", HttpStatus.ACCEPTED);
 		}
 		else

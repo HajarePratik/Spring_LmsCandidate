@@ -15,6 +15,8 @@ import com.bridgelabz.lmscandidate.dto.ResponseDTO;
 import com.bridgelabz.lmscandidate.exception.LmsException;
 import com.bridgelabz.lmscandidate.model.LmsBankInfo;
 import com.bridgelabz.lmscandidate.respository.LmsBankRepository;
+import com.bridgelabz.lmscandidate.util.TokenUtil;
+
 
 @Service
 public class LmsBankService implements ILmsBankService{
@@ -40,9 +42,10 @@ public class LmsBankService implements ILmsBankService{
 	}
 
 	@Override
-	public ResponseDTO updateBankInfoDataById(String token, int id,LmsBankInfoDTO bankDTO)
+	public ResponseDTO updateBankInfoDataById(String token,LmsBankInfoDTO bankDTO)
 	{
-		Optional<LmsBankInfo> isUserPresent = bankRespository.findById(id);
+		int tokenid = TokenUtil.decodeToken(token);
+		Optional<LmsBankInfo> isUserPresent = bankRespository.findById(tokenid);
 		if (isUserPresent.isPresent()) 
 		{
 			isUserPresent.get().setAadharNumber(bankDTO.getAadharNumber());
@@ -65,12 +68,13 @@ public class LmsBankService implements ILmsBankService{
 	}
 
 	@Override
-	public ResponseDTO deleteBankInfoDataById(String token, int id) 
+	public ResponseDTO deleteBankInfoDataById(String token) 
 	{
-		Optional<LmsBankInfo> isUserPresent = bankRespository.findById(id);
+		int tokenid = TokenUtil.decodeToken(token);
+		Optional<LmsBankInfo> isUserPresent = bankRespository.findById(tokenid);
 		if(isUserPresent.isPresent())
 		{
-			bankRespository.deleteById(id);
+			bankRespository.deleteById(tokenid);
 			return new ResponseDTO("Deleted Successfully", HttpStatus.OK);
 		}
 		else

@@ -39,18 +39,18 @@ public class LmsStatusController
 		return new ResponseEntity<ResponseDTO>(resDTO,HttpStatus.OK);
 	}
 	
-	@PutMapping("/updatestatus/{id}")
-	public ResponseEntity<ResponseDTO> updateStatusDataById(String token,int id,@RequestBody LmsStatusDTO statusDTO)
+	@PutMapping("/updatestatus/{token}")
+	public ResponseEntity<ResponseDTO> updateStatusDataById(String token,@RequestBody LmsStatusDTO statusDTO)
 	{
-		ResponseDTO respDTO = statusService.updateStatusDataById(token,id,statusDTO);
+		ResponseDTO respDTO = statusService.updateStatusDataById(token,statusDTO);
 		return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
 	}
 
-	@DeleteMapping("/deletestatus/{id}")
-	public ResponseEntity<ResponseDTO> deleteStatusDataById(String token,int id) 
+	@DeleteMapping("/deletestatus/{token}")
+	public ResponseEntity<ResponseDTO> deleteStatusDataById(String token) 
 	{
-		statusService.deleteStatusDataById(token,id);
-		ResponseDTO respDTO = new ResponseDTO("Deleted Status Candidate with id : ", id);
+		statusService.deleteStatusDataById(token);
+		ResponseDTO respDTO = new ResponseDTO("Deleted Status Candidate with token : ", token);
 		return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
 	}
 }

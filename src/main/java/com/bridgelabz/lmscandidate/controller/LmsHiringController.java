@@ -39,23 +39,23 @@ public class LmsHiringController {
 		return new ResponseEntity<ResponseDTO>(resDTO,HttpStatus.OK);
 	}
 	
-	@PutMapping("/updatecandidatehiring/{id}")
-	public ResponseEntity<ResponseDTO> updateCandidateHiringDataById(String token,int id,@RequestBody LmsHiringDTO hiringDTO) {
-		ResponseDTO respDTO = hiringService.updateCandidateHiringDataById(token,id,hiringDTO);
+	@PutMapping("/updatecandidatehiring/{token}")
+	public ResponseEntity<ResponseDTO> updateCandidateHiringDataById(String token,@RequestBody LmsHiringDTO hiringDTO) {
+		ResponseDTO respDTO = hiringService.updateCandidateHiringDataById(token,hiringDTO);
 		return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
 	}
 
-	@DeleteMapping("/deletecandidatehiring/{id}")
-	public ResponseEntity<ResponseDTO> deleteCandidateHiringDataById(String token,int id) 
+	@DeleteMapping("/deletecandidatehiring/{token}")
+	public ResponseEntity<ResponseDTO> deleteCandidateHiringDataById(String token) 
 	{
-		hiringService.deleteCandidateHiringDataById(token,id);
-		ResponseDTO respDTO = new ResponseDTO("Deleted Candidate with id : ", token);
+		hiringService.deleteCandidateHiringDataById(token);
+		ResponseDTO respDTO = new ResponseDTO("Deleted Candidate with Token : ", token);
 		return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
 	}
 	
-	@PutMapping("/updatestatushiring/{id}/{keyText}")
-	public ResponseEntity<ResponseDTO> updatestatusHiring(String token, @PathVariable int id,@PathVariable String keyText) {
-		ResponseDTO respDTO = hiringService.updateCandidateHiringStatus(token, id, keyText);
+	@PutMapping("/updatestatushiring/{token}/{keyText}")
+	public ResponseEntity<ResponseDTO> updatestatusHiring(String token,@PathVariable String keyText) {
+		ResponseDTO respDTO = hiringService.updateCandidateHiringStatus(token, keyText);
 		return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
 	}
 	

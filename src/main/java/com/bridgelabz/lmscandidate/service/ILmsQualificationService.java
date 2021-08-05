@@ -13,8 +13,8 @@ public interface ILmsQualificationService {
 	
 	public ResponseDTO createQualificationData(LmsQualificationInfoDTO qualificationDTO);
 
-	public ResponseDTO updateQualificationDataById(String token,int id,LmsQualificationInfoDTO qualificationDTO);
+	public ResponseDTO updateQualificationDataById(String token,LmsQualificationInfoDTO qualificationDTO);
 	
-	public ResponseDTO deleteQualificationDataById(String token,int id);
+	public ResponseDTO deleteQualificationDataById(String token);
 
 }

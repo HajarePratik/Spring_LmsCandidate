@@ -21,7 +21,6 @@ public @Data class LmsCandidate {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	
-	
 	public String firstName;
 	public String middleName;
 	public String lastName;

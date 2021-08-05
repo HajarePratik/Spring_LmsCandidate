@@ -13,6 +13,7 @@ import com.bridgelabz.lmscandidate.dto.ResponseDTO;
 import com.bridgelabz.lmscandidate.exception.LmsException;
 import com.bridgelabz.lmscandidate.model.LmsQualificationInfo;
 import com.bridgelabz.lmscandidate.respository.LmsQualificationRepository;
+import com.bridgelabz.lmscandidate.util.TokenUtil;
 
 @Service
 public class LmsQualificationService implements ILmsQualificationService{
@@ -39,8 +40,9 @@ public class LmsQualificationService implements ILmsQualificationService{
 	}
 
 	@Override
-	public ResponseDTO updateQualificationDataById(String token,int id, LmsQualificationInfoDTO qualificationDTO) {
-		Optional<LmsQualificationInfo> isUserPresent = qualificationRespository.findById(id);
+	public ResponseDTO updateQualificationDataById(String token, LmsQualificationInfoDTO qualificationDTO) {
+		int tokenid = TokenUtil.decodeToken(token);
+		Optional<LmsQualificationInfo> isUserPresent = qualificationRespository.findById(tokenid);
 		if (isUserPresent.isPresent()) 
 		{
 			isUserPresent.get().setDegree(qualificationDTO.getDegree());
@@ -63,12 +65,13 @@ public class LmsQualificationService implements ILmsQualificationService{
 	}
 
 	@Override
-	public ResponseDTO deleteQualificationDataById(String token,int id) 
+	public ResponseDTO deleteQualificationDataById(String token) 
 	{
-		Optional<LmsQualificationInfo> isUserPresent = qualificationRespository.findById(id);
+		int tokenid = TokenUtil.decodeToken(token);
+		Optional<LmsQualificationInfo> isUserPresent = qualificationRespository.findById(tokenid);
 		if(isUserPresent.isPresent())
 		{
-			qualificationRespository.deleteById(id);
+			qualificationRespository.deleteById(tokenid);
 			return new ResponseDTO("Deleted Successfully", HttpStatus.ACCEPTED);
 		}
 		else

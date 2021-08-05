@@ -39,16 +39,16 @@ public class LmsQualificationController {
 		return new ResponseEntity<ResponseDTO>(resDTO,HttpStatus.OK);
 	}
 	
-	@PutMapping("/updatequalification/{id}")
-	public ResponseEntity<ResponseDTO> updateCandidateHiringDataById(String token,int id,@RequestBody LmsQualificationInfoDTO qualificationDTO) {
-		ResponseDTO respDTO = qualificationService.updateQualificationDataById(token,id,qualificationDTO);
+	@PutMapping("/updatequalification/{token}")
+	public ResponseEntity<ResponseDTO> updateCandidateHiringDataById(String token,@RequestBody LmsQualificationInfoDTO qualificationDTO) {
+		ResponseDTO respDTO = qualificationService.updateQualificationDataById(token,qualificationDTO);
 		return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
 	}
 
-	@DeleteMapping("/deletequalification/{id}")
-	public ResponseEntity<ResponseDTO> deleteCandidateHiringDataById(String token,int id) {
-		qualificationService.deleteQualificationDataById(token,id);
-		ResponseDTO respDTO = new ResponseDTO("Deleted Candidate with id : ", id);
+	@DeleteMapping("/deletequalification/{token}")
+	public ResponseEntity<ResponseDTO> deleteCandidateHiringDataById(String token) {
+		qualificationService.deleteQualificationDataById(token);
+		ResponseDTO respDTO = new ResponseDTO("Deleted Candidate with token : ", token);
 		return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
 	}
 }

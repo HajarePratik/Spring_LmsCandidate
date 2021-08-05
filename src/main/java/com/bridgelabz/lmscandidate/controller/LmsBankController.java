@@ -5,7 +5,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -41,18 +40,18 @@ public class LmsBankController {
 		return new ResponseEntity<ResponseDTO>(resDTO,HttpStatus.OK);
 	}
 	
-	@PutMapping("/updatebankdetails/{id}")
-	public ResponseEntity<ResponseDTO> updateBankInfoDataById(String token,@PathVariable int id,@RequestBody LmsBankInfoDTO bankDTO) 
+	@PutMapping("/updatebankdetails/{token}")
+	public ResponseEntity<ResponseDTO> updateBankInfoDataById(String token,@RequestBody LmsBankInfoDTO bankDTO) 
 	{
-		ResponseDTO respDTO = bankService.updateBankInfoDataById(token,id,bankDTO);
+		ResponseDTO respDTO = bankService.updateBankInfoDataById(token,bankDTO);
 		return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
 	}
 
-	@DeleteMapping("/deletebankdetails/{id}")
-	public ResponseEntity<ResponseDTO> deleteBankInfoDataById(String token,@PathVariable int id) 
+	@DeleteMapping("/deletebankdetails/{token}")
+	public ResponseEntity<ResponseDTO> deleteBankInfoDataById(String token) 
 	{
-		bankService.deleteBankInfoDataById(token,id);
-		ResponseDTO respDTO = new ResponseDTO("Deleted Candidate with id : ", token);
+		bankService.deleteBankInfoDataById(token);
+		ResponseDTO respDTO = new ResponseDTO("Deleted Candidate with token : ", token);
 		return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
 	}
 }
