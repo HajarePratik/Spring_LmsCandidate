@@ -23,7 +23,7 @@ public @Data class LmsHiringDTO {
 	@NotNull
 	public String mobileNum;
 	@NotNull
-	public String hiredcity;
+	public String hiredCity;
 	@NotNull
 	public String parentName;
 	@NotNull

@@ -54,7 +54,7 @@ public class LmsHiringService  implements ILmsHiringService {
 			isUserPresent.get().setLastName(hiringDTO.getLastName());
 			isUserPresent.get().setEmail(hiringDTO.getEmail());
 			isUserPresent.get().setMobileNum(hiringDTO.getMobileNum());
-			isUserPresent.get().setHiredcity(hiringDTO.getHiredcity());
+			isUserPresent.get().setHiredCity(hiringDTO.getHiredCity());
 			isUserPresent.get().setParentName(hiringDTO.getParentName());
 			isUserPresent.get().setParentMobile(hiringDTO.getParentMobile());
 			isUserPresent.get().setTemporaryAddress(hiringDTO.getTemporaryAddress());

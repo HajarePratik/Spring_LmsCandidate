@@ -29,7 +29,7 @@ public @Data class LmsHiring {
 	public String lastName;
 	public String email;
 	public String mobileNum;
-	public String hiredcity;
+	public String hiredCity;
 	public String parentName;
 	public String parentMobile;
 	public String temporaryAddress;
@@ -56,7 +56,7 @@ public @Data class LmsHiring {
 		this.lastName = HiringDTO.getLastName();
 		this.email = HiringDTO.getEmail();
 		this.mobileNum = HiringDTO.getMobileNum();
-		this.hiredcity = HiringDTO.getHiredcity();
+		this.hiredCity = HiringDTO.getHiredCity();
 		this.parentName = HiringDTO.getParentName();
 		this.parentMobile = HiringDTO.getParentMobile();
 		this.temporaryAddress = HiringDTO.getTemporaryAddress();
