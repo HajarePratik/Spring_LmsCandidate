@@ -3,14 +3,18 @@ package com.bridgelabz.lmscandidate.model;
 
 import java.time.LocalDate;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.Valid;
 
 import com.bridgelabz.lmscandidate.dto.LmsHiringDTO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
 
@@ -23,6 +27,15 @@ public @Data class LmsHiring {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	
+	@JsonIgnore
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "bank_Id", referencedColumnName = "id")
+	private LmsBankInfo hiringBankInfo;
+
+	@JsonIgnore
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "qualification_Id", referencedColumnName = "id")
+	private LmsQualificationInfo hiringQualificationInfo;
 	
 	public String firstName;
 	public String middleName;
@@ -41,8 +54,7 @@ public @Data class LmsHiring {
 	public String status;
 	public LocalDate creatorStamp;
 	public LocalDate updateStamp;
-	public String bankInfo;
-	public String qualification_Info;
+	
 	
 	public LmsHiring() {
 	
@@ -67,8 +79,7 @@ public @Data class LmsHiring {
 		this.status = HiringDTO.getStatus();
 		this.creatorStamp = HiringDTO.getCreatorStamp();
 		this.updateStamp = HiringDTO.getUpdateStamp();
-		this.bankInfo = HiringDTO.getBankInfo();
-		this.qualification_Info = HiringDTO.getQualification_Info();
+		
 	}
 
 	

@@ -59,7 +59,8 @@ public class BatchConfig
     }
 
     @Bean
-    public LineMapper<LmsCsvHiringDTO> lineMapper() {
+    public LineMapper<LmsCsvHiringDTO> lineMapper() 
+    {
 
         DefaultLineMapper<LmsCsvHiringDTO> defaultLineMapper = new DefaultLineMapper<>();
         DelimitedLineTokenizer lineTokenizer = new DelimitedLineTokenizer();

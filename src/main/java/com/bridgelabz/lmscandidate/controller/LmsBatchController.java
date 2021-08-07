@@ -37,7 +37,8 @@ public class LmsBatchController {
 
         System.out.println("Batch is Running...");
         System.out.println("kk");
-        while (jobExecution.isRunning()) {
+        while (jobExecution.isRunning()) 
+        {
             System.out.println("...");
         }
 

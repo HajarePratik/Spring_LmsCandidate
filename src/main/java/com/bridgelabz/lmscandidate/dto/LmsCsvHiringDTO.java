@@ -2,14 +2,12 @@ package com.bridgelabz.lmscandidate.dto;
 
 import java.time.LocalDate;
 
-import javax.persistence.Id;
 
 import lombok.Data;
 
 @Data
 public class LmsCsvHiringDTO {
 
-		@Id
 		private Integer id;
 		private String firstName;
 		private String middleName;

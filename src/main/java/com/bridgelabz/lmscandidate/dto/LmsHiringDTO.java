@@ -49,10 +49,8 @@ public @Data class LmsHiringDTO {
 	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
 	public LocalDate updateStamp;
 	
-	@NotNull
-	public String bankInfo;
+	private int bank_Id;
 	
-	@NotNull
-	public String qualification_Info;
+	private int qualification_Id;
 	
 }
