@@ -1,6 +1,7 @@
 package com.bridgelabz.lmscandidate.service;
 
 
+import java.io.File;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -9,6 +10,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.bridgelabz.lmscandidate.dto.LmsBankInfoDTO;
 import com.bridgelabz.lmscandidate.dto.ResponseDTO;
@@ -16,7 +18,6 @@ import com.bridgelabz.lmscandidate.exception.LmsException;
 import com.bridgelabz.lmscandidate.model.LmsBankInfo;
 import com.bridgelabz.lmscandidate.respository.LmsBankRepository;
 import com.bridgelabz.lmscandidate.util.TokenUtil;
-
 
 @Service
 public class LmsBankService implements ILmsBankService{
@@ -80,6 +81,38 @@ public class LmsBankService implements ILmsBankService{
 		else
 		{
 			throw new LmsException(400,"Hiring Candidate Not found");
+		}
+	}
+
+
+
+	@Override
+	public ResponseDTO uploadDocument(String token,int id,MultipartFile panCard, MultipartFile aadharCard,
+			MultipartFile bankPassbook) {
+		Optional<LmsBankInfo> isUserPresent = bankRespository.findById(id);
+		if (isUserPresent.isPresent()) 
+		{
+
+			File pan = new File(panCard.getOriginalFilename());
+			String panpath = pan.getAbsolutePath();
+			
+			File Aadhar = new File(aadharCard.getOriginalFilename());
+			String Aadharpath = Aadhar.getAbsolutePath();
+			
+			File passBook = new File(bankPassbook.getOriginalFilename());
+			String passBookpath = passBook.getAbsolutePath();
+			
+			isUserPresent.get().setPanPath(panpath);
+			isUserPresent.get().setAadharPath(Aadharpath);
+			isUserPresent.get().setPassbookPath(passBookpath);
+
+			bankRespository.save(isUserPresent.get());
+			
+			return new ResponseDTO("Added Bank info: ", isUserPresent.get());
+		} 
+		else 
+		{
+			throw new LmsException(400, "Candidate Id to be Updated Not found");
 		}
 	}
 }
