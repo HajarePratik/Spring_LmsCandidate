@@ -34,11 +34,11 @@ public class LmsBankController {
 		ResponseDTO resDTO = bankService.getBankInfo(); 
 		return new ResponseEntity<ResponseDTO>(resDTO, HttpStatus.OK);
 	}
-	@PostMapping("/createbankdetails")
-	public ResponseEntity<ResponseDTO> createBankInfo(@RequestBody LmsBankInfoDTO bankDTO)
+	@PostMapping("/createbankdetails/{token}")
+	public ResponseEntity<ResponseDTO> createBankInfo(String token,@RequestBody LmsBankInfoDTO bankDTO)
 	{
 
-		ResponseDTO candidateData = bankService.createBankInfo(bankDTO);
+		ResponseDTO candidateData = bankService.createBankInfo(token,bankDTO);
 		ResponseDTO resDTO = new ResponseDTO("Create Candidate Details Sucessfully :"+candidateData, bankDTO);
 		return new ResponseEntity<ResponseDTO>(resDTO,HttpStatus.OK);
 	}

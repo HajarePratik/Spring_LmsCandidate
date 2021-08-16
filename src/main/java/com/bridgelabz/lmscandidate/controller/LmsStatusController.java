@@ -30,11 +30,11 @@ public class LmsStatusController
 		ResponseDTO resDTO = statusService.getAllStatus(); 
 		return new ResponseEntity<ResponseDTO>(resDTO, HttpStatus.OK);
 	}
-	@PostMapping("/createstatus")
-	public ResponseEntity<ResponseDTO> createStatus(@RequestBody LmsStatusDTO statusDTO)
+	@PostMapping("/createstatus/{token}")
+	public ResponseEntity<ResponseDTO> createStatus(String token,@RequestBody LmsStatusDTO statusDTO)
 	{
 
-		ResponseDTO candidateData = statusService.createStatus(statusDTO);
+		ResponseDTO candidateData = statusService.createStatus(token,statusDTO);
 		ResponseDTO resDTO = new ResponseDTO("Create Candidate Details Sucessfully :"+candidateData, statusDTO);
 		return new ResponseEntity<ResponseDTO>(resDTO,HttpStatus.OK);
 	}

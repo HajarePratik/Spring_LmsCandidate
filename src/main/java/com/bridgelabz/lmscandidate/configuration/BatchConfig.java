@@ -51,7 +51,7 @@ public class BatchConfig
     public FlatFileItemReader<LmsCsvHiringDTO> itemReader() {
 
         FlatFileItemReader<LmsCsvHiringDTO> flatFileItemReader = new FlatFileItemReader<>();
-        flatFileItemReader.setResource(new FileSystemResource("C:\\Users\\InfoGalaxy\\Spring Boot\\Spring_Boot_LMSCandidate\\candidate_data.csv"));
+        flatFileItemReader.setResource(new FileSystemResource("C:\\Users\\InfoGalaxy\\Spring Boot\\Spring_LmsCandidate\\candidate_data.csv"));
         flatFileItemReader.setName("CSV-Reader");
         flatFileItemReader.setLinesToSkip(1);
         flatFileItemReader.setLineMapper(lineMapper());

@@ -30,7 +30,7 @@ public class LmsHiringController {
 		ResponseDTO resDTO = hiringService.getCandidateHiringData(); 
 		return new ResponseEntity<ResponseDTO>(resDTO, HttpStatus.OK);
 	}
-	@PostMapping("/createcandidatehiring")
+	@PostMapping("/createcandidatehiring/{token}")
 	public ResponseEntity<ResponseDTO> createCandidateHiringData(String token,@RequestBody LmsHiringDTO hiringDTO)
 	{
 

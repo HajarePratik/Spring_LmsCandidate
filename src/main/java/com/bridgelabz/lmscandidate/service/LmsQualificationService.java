@@ -7,6 +7,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import com.bridgelabz.lmscandidate.dto.LmsQualificationInfoDTO;
 import com.bridgelabz.lmscandidate.dto.ResponseDTO;
@@ -24,6 +25,9 @@ public class LmsQualificationService implements ILmsQualificationService{
 
 	@Autowired
 	ModelMapper modelmapper;
+	
+	@Autowired(required = true)
+	RestTemplate restTemplate;
 
 	@Override
 	public ResponseDTO getQualificationData() 
@@ -33,51 +37,83 @@ public class LmsQualificationService implements ILmsQualificationService{
 	}
 
 	@Override
-	public ResponseDTO createQualificationData(LmsQualificationInfoDTO qualificationDTO) {
-		LmsQualificationInfo candidate = modelmapper.map(qualificationDTO, LmsQualificationInfo.class);
-		qualificationRespository.save(candidate);
-		return new ResponseDTO("Candidate Qualification is Added :", candidate);
-	}
-
-	@Override
-	public ResponseDTO updateQualificationDataById(String token, LmsQualificationInfoDTO qualificationDTO) {
-		int tokenid = TokenUtil.decodeToken(token);
-		Optional<LmsQualificationInfo> isUserPresent = qualificationRespository.findById(tokenid);
-		if (isUserPresent.isPresent()) 
+	public ResponseDTO createQualificationData(String token,LmsQualificationInfoDTO qualificationDTO)
+	{
+		
+		LmsQualificationInfo verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, LmsQualificationInfo.class);
+		System.out.println("Value="+verify);
+		if(verify!=null)
 		{
-			isUserPresent.get().setDegree(qualificationDTO.getDegree());
-			isUserPresent.get().setFiled(qualificationDTO.getFiled());
-			isUserPresent.get().setYearOfPassing(qualificationDTO.getYearOfPassing());
-			isUserPresent.get().setFinalPercentage(qualificationDTO.getFinalPercentage());
-			isUserPresent.get().setAggrPercentage(qualificationDTO.getAggrPercentage());
-			isUserPresent.get().setEnggPercentage(qualificationDTO.getEnggPercentage());
-			isUserPresent.get().setFinalCertification(qualificationDTO.getFinalCertification());
-			isUserPresent.get().setTrainingInstitute(qualificationDTO.getTrainingInstitute());
-			isUserPresent.get().setTrainingDuration(qualificationDTO.getTrainingDuration());
-			isUserPresent.get().setCourse(qualificationDTO.getCourse());
-			qualificationRespository.save(isUserPresent.get());
-			return new ResponseDTO("Hiring Candidate Qualification Data Successfully Updated", isUserPresent);
+			LmsQualificationInfo candidate = modelmapper.map(qualificationDTO, LmsQualificationInfo.class);
+			qualificationRespository.save(candidate);
+			return new ResponseDTO("Candidate Qualification is Added :", candidate);
 		}
 		else
 		{
 			throw new LmsException(400,"Hiring Candidate Qualification Not found");
 		}
+		
+	}
+
+	@Override
+	public ResponseDTO updateQualificationDataById(String token, LmsQualificationInfoDTO qualificationDTO) {
+		LmsQualificationInfo verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, LmsQualificationInfo.class);
+		System.out.println("Value="+verify);
+		if(verify!=null)
+		{
+			int tokenid = TokenUtil.decodeToken(token);
+			Optional<LmsQualificationInfo> isUserPresent = qualificationRespository.findById(tokenid);
+			if (isUserPresent.isPresent()) 
+			{
+				isUserPresent.get().setDegree(qualificationDTO.getDegree());
+				isUserPresent.get().setFiled(qualificationDTO.getFiled());
+				isUserPresent.get().setYearOfPassing(qualificationDTO.getYearOfPassing());
+				isUserPresent.get().setFinalPercentage(qualificationDTO.getFinalPercentage());
+				isUserPresent.get().setAggrPercentage(qualificationDTO.getAggrPercentage());
+				isUserPresent.get().setEnggPercentage(qualificationDTO.getEnggPercentage());
+				isUserPresent.get().setFinalCertification(qualificationDTO.getFinalCertification());
+				isUserPresent.get().setTrainingInstitute(qualificationDTO.getTrainingInstitute());
+				isUserPresent.get().setTrainingDuration(qualificationDTO.getTrainingDuration());
+				isUserPresent.get().setCourse(qualificationDTO.getCourse());
+				qualificationRespository.save(isUserPresent.get());
+				return new ResponseDTO("Hiring Candidate Qualification Data Successfully Updated", isUserPresent);
+			}
+			else
+			{
+				throw new LmsException(400,"Hiring Candidate Qualification Not found");
+			}
+		}
+		else
+		{
+			throw new LmsException(400,"Hiring Candidate Qualification Not found");
+		}
+		
 	}
 
 	@Override
 	public ResponseDTO deleteQualificationDataById(String token) 
 	{
-		int tokenid = TokenUtil.decodeToken(token);
-		Optional<LmsQualificationInfo> isUserPresent = qualificationRespository.findById(tokenid);
-		if(isUserPresent.isPresent())
+		LmsQualificationInfo verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, LmsQualificationInfo.class);
+		System.out.println("Value="+verify);
+		if(verify!=null)
 		{
-			qualificationRespository.deleteById(tokenid);
-			return new ResponseDTO("Deleted Successfully", HttpStatus.ACCEPTED);
+			int tokenid = TokenUtil.decodeToken(token);
+			Optional<LmsQualificationInfo> isUserPresent = qualificationRespository.findById(tokenid);
+			if(isUserPresent.isPresent())
+			{
+				qualificationRespository.deleteById(tokenid);
+				return new ResponseDTO("Deleted Successfully", HttpStatus.ACCEPTED);
+			}
+			else
+			{
+				throw new LmsException(400,"Qualification of Candidate Not found");
+			}
 		}
 		else
 		{
-			throw new LmsException(400,"Qualification of Candidate Not found");
+			throw new LmsException(400,"Hiring Candidate Qualification Not found");
 		}
+		
 	}
 
 }

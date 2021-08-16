@@ -10,11 +10,13 @@ public interface ILmsStatusService {
 	
 	public ResponseDTO getAllStatus();
 	
-	public ResponseDTO createStatus(LmsStatusDTO statusDTO);
+	public ResponseDTO createStatus(String token, LmsStatusDTO statusDTO);
 
 	public ResponseDTO updateStatusDataById(String token,LmsStatusDTO statusDTO);
 	
 	public ResponseDTO deleteStatusDataById(String token);
+
+	
 
 
 }

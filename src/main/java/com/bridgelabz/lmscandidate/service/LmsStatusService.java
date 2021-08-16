@@ -7,6 +7,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import com.bridgelabz.lmscandidate.dto.LmsStatusDTO;
 import com.bridgelabz.lmscandidate.dto.ResponseDTO;
@@ -25,6 +26,10 @@ public class LmsStatusService implements ILmsStatusService {
 	
 	@Autowired
 	ModelMapper modelmapper;
+	
+	@Autowired(required = true)
+	RestTemplate restTemplate;
+	
 	@Override
 	public ResponseDTO getAllStatus() 
 	{
@@ -33,7 +38,8 @@ public class LmsStatusService implements ILmsStatusService {
 	}
 
 	@Override
-	public ResponseDTO createStatus(LmsStatusDTO statusDTO) {
+	public ResponseDTO createStatus(String token,LmsStatusDTO statusDTO) 
+	{
 		
 		LmsStatus status = modelmapper.map(statusDTO, LmsStatus.class);
 		statusRespository.save(status);
@@ -43,37 +49,58 @@ public class LmsStatusService implements ILmsStatusService {
 	@Override
 	public ResponseDTO updateStatusDataById(String token, LmsStatusDTO statusDTO)
 	{
-		int tokenid = TokenUtil.decodeToken(token);
-		Optional<LmsStatus> isUserPresent = statusRespository.findById(tokenid);
-		if (isUserPresent.isPresent()) 
+
+		LmsStatus verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, LmsStatus.class);
+		System.out.println("Value="+verify);
+		if(verify!=null)
 		{
-			isUserPresent.get().setCreatedUser(statusDTO.getCreatedUser());
-			isUserPresent.get().setCurrentStatus(statusDTO.getCurrentStatus());
-			isUserPresent.get().setId(statusDTO.getId());
-			isUserPresent.get().setKeyText(statusDTO.getKeyText());
-			isUserPresent.get().setKeyType(statusDTO.getKeyType());
-			isUserPresent.get().setKeyValue(statusDTO.getKeyValue());
-			isUserPresent.get().setLastUpdatedUser(statusDTO.getLastUpdatedUser());
-			isUserPresent.get().setSequenceNumber(statusDTO.getSequenceNumber());
-			statusRespository.save(isUserPresent.get());
-			return new ResponseDTO("Candidate Status Successfully Updated", isUserPresent);
+			int tokenid = TokenUtil.decodeToken(token);
+			Optional<LmsStatus> isUserPresent = statusRespository.findById(tokenid);
+			if (isUserPresent.isPresent()) 
+			{
+				isUserPresent.get().setCreatedUser(statusDTO.getCreatedUser());
+				isUserPresent.get().setCurrentStatus(statusDTO.getCurrentStatus());
+				isUserPresent.get().setId(statusDTO.getId());
+				isUserPresent.get().setKeyText(statusDTO.getKeyText());
+				isUserPresent.get().setKeyType(statusDTO.getKeyType());
+				isUserPresent.get().setKeyValue(statusDTO.getKeyValue());
+				isUserPresent.get().setLastUpdatedUser(statusDTO.getLastUpdatedUser());
+				isUserPresent.get().setSequenceNumber(statusDTO.getSequenceNumber());
+				statusRespository.save(isUserPresent.get());
+				return new ResponseDTO("Candidate Status Successfully Updated", isUserPresent);
+			}
+			else
+			{
+				throw new LmsException(400,"Candidate Status Not found");
+			}
 		}
 		else
 		{
 			throw new LmsException(400,"Candidate Status Not found");
 		}
+		
 	}
 
 	@Override
 	public ResponseDTO deleteStatusDataById(String token)
 	{
-		int tokenid = TokenUtil.decodeToken(token);
-
-		Optional<LmsStatus> isUserPresent = statusRespository.findById(tokenid);
-		if(isUserPresent.isPresent())
+		LmsStatus verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, LmsStatus.class);
+		System.out.println("Value="+verify);
+		if(verify!=null)
 		{
-			statusRespository.deleteById(tokenid);
-			return new ResponseDTO("Deleted Successfully", HttpStatus.ACCEPTED);
+			int tokenid = TokenUtil.decodeToken(token);
+
+			Optional<LmsStatus> isUserPresent = statusRespository.findById(tokenid);
+			if(isUserPresent.isPresent())
+			{
+				statusRespository.deleteById(tokenid);
+				return new ResponseDTO("Deleted Successfully", HttpStatus.ACCEPTED);
+			}
+			else
+			{
+				throw new LmsException(400,"Status of Candidate Not found");
+			}
+			
 		}
 		else
 		{

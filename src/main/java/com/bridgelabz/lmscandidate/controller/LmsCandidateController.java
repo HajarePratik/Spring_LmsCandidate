@@ -31,32 +31,33 @@ public class LmsCandidateController {
 		return new ResponseEntity<ResponseDTO>(resDTO, HttpStatus.OK);
 	}
 	@GetMapping("/getcandidate/{token}")
-	public ResponseEntity<ResponseDTO> getCandidateDetail(String token) {
+	public ResponseEntity<ResponseDTO> getCandidateDetail(@PathVariable String token) 
+	{	
 		ResponseDTO respDTO = candidateService.getAllCandidateDetail(token);
 		return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
 	}
-	@PostMapping("/createcandidate")
-	public ResponseEntity<ResponseDTO> createCandidateData(String token,@RequestBody LmsCandidateDTO candidateDTO)
+	@PostMapping("/createcandidate/{token}")
+	public ResponseEntity<ResponseDTO> createCandidateData(@PathVariable String token,@RequestBody LmsCandidateDTO candidateDTO)
 	{
 		ResponseDTO candidateData = candidateService.createCandidateData(token,candidateDTO);
 		ResponseDTO resDTO = new ResponseDTO("Create Candidate Details Sucessfully :"+candidateData, candidateDTO);
 		return new ResponseEntity<ResponseDTO>(resDTO,HttpStatus.OK);
 	}
 	@PutMapping("/updatecandidate/{token}")
-	public ResponseEntity<ResponseDTO> updateCandidateDataById(String token, @RequestBody LmsCandidateDTO candidateDTO) {
+	public ResponseEntity<ResponseDTO> updateCandidateDataById(@PathVariable String token,@RequestBody LmsCandidateDTO candidateDTO) {
 		ResponseDTO respDTO = candidateService.updateCandidateDataById(token,candidateDTO);
 		return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
 	}
 
 	@DeleteMapping("/deletecandicate/{token}")
-	public ResponseEntity<ResponseDTO> deleteCandidateHiringDataById(String token) {
+	public ResponseEntity<ResponseDTO> deleteCandidateHiringDataById(@PathVariable String token) {
 		candidateService.deleteCandidateDataById(token);
 		ResponseDTO respDTO = new ResponseDTO("Deleted Candidate with id : ", token);
 		return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
 	}
 
 	@PutMapping("/updatecandidatestatus/{token}/{keyText}")
-	public ResponseEntity<ResponseDTO> updateCandidateStatus(String token, @PathVariable String keyText) 
+	public ResponseEntity<ResponseDTO> updateCandidateStatus(@PathVariable String token, @PathVariable String keyText) 
 	{
 		ResponseDTO respDTO = candidateService.updateCandidateStatus(token, keyText);
 		return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);

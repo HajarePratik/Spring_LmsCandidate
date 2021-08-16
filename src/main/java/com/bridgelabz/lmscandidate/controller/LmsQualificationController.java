@@ -30,11 +30,11 @@ public class LmsQualificationController {
 		return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
 	}
 	
-	@PostMapping("/createqualification")
-	public ResponseEntity<ResponseDTO> createCandidateHiringData(@RequestBody LmsQualificationInfoDTO qualificationDTO)
+	@PostMapping("/createqualification/{token}")
+	public ResponseEntity<ResponseDTO> createCandidateHiringData(String token,@RequestBody LmsQualificationInfoDTO qualificationDTO)
 	{
 
-		ResponseDTO candidateData = qualificationService.createQualificationData(qualificationDTO);
+		ResponseDTO candidateData = qualificationService.createQualificationData(token,qualificationDTO);
 		ResponseDTO resDTO = new ResponseDTO("Create Candidate Details Sucessfully :"+candidateData, qualificationDTO);
 		return new ResponseEntity<ResponseDTO>(resDTO,HttpStatus.OK);
 	}
