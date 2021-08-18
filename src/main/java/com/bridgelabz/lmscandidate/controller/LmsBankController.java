@@ -29,13 +29,13 @@ public class LmsBankController {
 	private ILmsBankService bankService;
 	
 	@GetMapping("/get")
-	public ResponseEntity<ResponseDTO> getBankInfo()
+	public ResponseEntity<ResponseDTO> getBankInfo(@PathVariable String token)
 	{
-		ResponseDTO resDTO = bankService.getBankInfo(); 
+		ResponseDTO resDTO = bankService.getBankInfo(token); 
 		return new ResponseEntity<ResponseDTO>(resDTO, HttpStatus.OK);
 	}
 	@PostMapping("/createbankdetails/{token}")
-	public ResponseEntity<ResponseDTO> createBankInfo(String token,@RequestBody LmsBankInfoDTO bankDTO)
+	public ResponseEntity<ResponseDTO> createBankInfo(@PathVariable String token,@RequestBody LmsBankInfoDTO bankDTO)
 	{
 
 		ResponseDTO candidateData = bankService.createBankInfo(token,bankDTO);
@@ -43,18 +43,18 @@ public class LmsBankController {
 		return new ResponseEntity<ResponseDTO>(resDTO,HttpStatus.OK);
 	}
 	
-	@PutMapping("/updatebankdetails/{token}")
-	public ResponseEntity<ResponseDTO> updateBankInfoDataById(String token,@RequestBody LmsBankInfoDTO bankDTO) 
+	@PutMapping("/updatebankdetails/{token}/{id}")
+	public ResponseEntity<ResponseDTO> updateBankInfoDataById(@PathVariable String token,@PathVariable int id,@RequestBody LmsBankInfoDTO bankDTO) 
 	{
-		ResponseDTO respDTO = bankService.updateBankInfoDataById(token,bankDTO);
+		ResponseDTO respDTO = bankService.updateBankInfoDataById(token,id,bankDTO);
 		return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
 	}
 
 	@DeleteMapping("/deletebankdetails/{token}")
-	public ResponseEntity<ResponseDTO> deleteBankInfoDataById(String token) 
+	public ResponseEntity<ResponseDTO> deleteBankInfoDataById(@PathVariable String token,@PathVariable int id) 
 	{
-		bankService.deleteBankInfoDataById(token);
-		ResponseDTO respDTO = new ResponseDTO("Deleted Candidate with token : ", token);
+		bankService.deleteBankInfoDataById(token,id);
+		ResponseDTO respDTO = new ResponseDTO("Deleted Candidate with token : ", id);
 		return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
 	}
 	
@@ -62,7 +62,8 @@ public class LmsBankController {
 	@ApiOperation(value = "Upload Documents", response = ResponseDTO.class)
 	public ResponseEntity<ResponseDTO> addBankDetail(String token,@PathVariable int id,
 			@RequestParam("panCard") MultipartFile panFile, @RequestParam("aadharCard") MultipartFile AadharFile,
-			@RequestParam("passBook") MultipartFile passBookFile) {
+			@RequestParam("passBook") MultipartFile passBookFile) 
+	{
 		
 		ResponseDTO respDTO = bankService.uploadDocument(token,id,panFile, AadharFile, passBookFile);
 		return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);

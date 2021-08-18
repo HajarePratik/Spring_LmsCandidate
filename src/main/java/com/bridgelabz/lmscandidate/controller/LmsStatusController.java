@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,13 +26,13 @@ public class LmsStatusController
 	private ILmsStatusService statusService;
 	
 	@GetMapping("/get")
-	public ResponseEntity<ResponseDTO> getAllStatus()
+	public ResponseEntity<ResponseDTO> getStatus(@PathVariable String token)
 	{
-		ResponseDTO resDTO = statusService.getAllStatus(); 
+		ResponseDTO resDTO = statusService.getStatus(token); 
 		return new ResponseEntity<ResponseDTO>(resDTO, HttpStatus.OK);
 	}
 	@PostMapping("/createstatus/{token}")
-	public ResponseEntity<ResponseDTO> createStatus(String token,@RequestBody LmsStatusDTO statusDTO)
+	public ResponseEntity<ResponseDTO> createStatus(@PathVariable String token,@RequestBody LmsStatusDTO statusDTO)
 	{
 
 		ResponseDTO candidateData = statusService.createStatus(token,statusDTO);
@@ -39,18 +40,18 @@ public class LmsStatusController
 		return new ResponseEntity<ResponseDTO>(resDTO,HttpStatus.OK);
 	}
 	
-	@PutMapping("/updatestatus/{token}")
-	public ResponseEntity<ResponseDTO> updateStatusDataById(String token,@RequestBody LmsStatusDTO statusDTO)
+	@PutMapping("/updatestatus/{token}/{id}")
+	public ResponseEntity<ResponseDTO> updateStatusDataById(@PathVariable String token,@PathVariable int id,@RequestBody LmsStatusDTO statusDTO)
 	{
-		ResponseDTO respDTO = statusService.updateStatusDataById(token,statusDTO);
+		ResponseDTO respDTO = statusService.updateStatusDataById(token,id,statusDTO);
 		return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
 	}
 
-	@DeleteMapping("/deletestatus/{token}")
-	public ResponseEntity<ResponseDTO> deleteStatusDataById(String token) 
+	@DeleteMapping("/deletestatus/{token}/{id}")
+	public ResponseEntity<ResponseDTO> deleteStatusDataById(@PathVariable String token,@PathVariable int id) 
 	{
-		statusService.deleteStatusDataById(token);
-		ResponseDTO respDTO = new ResponseDTO("Deleted Status Candidate with token : ", token);
+		statusService.deleteStatusDataById(token,id);
+		ResponseDTO respDTO = new ResponseDTO("Deleted Status Candidate with id : ", id);
 		return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
 	}
 }

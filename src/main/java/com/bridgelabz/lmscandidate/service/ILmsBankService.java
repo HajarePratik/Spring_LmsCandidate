@@ -10,16 +10,14 @@ import com.bridgelabz.lmscandidate.dto.ResponseDTO;
 public interface ILmsBankService 
 {
 
-	public ResponseDTO getBankInfo();
+	public ResponseDTO getBankInfo(String token);
 	
 	public ResponseDTO createBankInfo(String token,LmsBankInfoDTO bankDTO);
 
-	public ResponseDTO updateBankInfoDataById(String token,LmsBankInfoDTO bankDTO);
+	public ResponseDTO updateBankInfoDataById(String token,int id,LmsBankInfoDTO bankDTO);
 	
-	public ResponseDTO deleteBankInfoDataById(String token);
+	public ResponseDTO deleteBankInfoDataById(String token,int id);
 	
 	public ResponseDTO uploadDocument(String token,int id,MultipartFile panCard, MultipartFile aadharCard,MultipartFile bankPassbook);
 
-	
-	//public ResponseDTO store(String token,int id,MultipartFile panFile,MultipartFile aaadharFile,MultipartFile passBookFile);
 }

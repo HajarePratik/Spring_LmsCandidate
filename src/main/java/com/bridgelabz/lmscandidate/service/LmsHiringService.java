@@ -17,7 +17,6 @@ import com.bridgelabz.lmscandidate.exception.LmsException;
 import com.bridgelabz.lmscandidate.model.LmsHiring;
 import com.bridgelabz.lmscandidate.respository.LmsHiringRepository;
 import com.bridgelabz.lmscandidate.util.JMSUtil;
-import com.bridgelabz.lmscandidate.util.TokenUtil;
 
 
 @Service
@@ -33,10 +32,19 @@ public class LmsHiringService  implements ILmsHiringService {
 	RestTemplate restTemplate;
 	
 	@Override
-	public ResponseDTO getCandidateHiringData() 
+	public ResponseDTO getCandidateHiringData(String token) 
 	{
-		List<LmsHiring> isCandidatePresent = hiringRespository.findAll();
-		return new ResponseDTO("List of all Hiring Candidate : ", isCandidatePresent);
+		LmsHiring verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, LmsHiring.class);
+		System.out.println("Value="+verify);
+		if(verify!=null)
+		{
+			List<LmsHiring> isCandidatePresent = hiringRespository.findAll();
+			return new ResponseDTO("List of all Hiring Candidate : ", isCandidatePresent);
+		}
+		else
+		{
+			throw new LmsException(400,"Hiring Candidate Not found");
+		}
 	}
 	@Override
 	public ResponseDTO createCandidateHiringData(String token,LmsHiringDTO hiringDTO) 
@@ -58,14 +66,14 @@ public class LmsHiringService  implements ILmsHiringService {
 	}
 
 	@Override
-	public ResponseDTO updateCandidateHiringDataById(String token, LmsHiringDTO hiringDTO) {
+	public ResponseDTO updateCandidateHiringDataById(String token,int id, LmsHiringDTO hiringDTO) 
+	{
 		
 		LmsHiring verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, LmsHiring.class);
 		System.out.println("Value="+verify);
 		if(verify!=null)
 		{
-			int tokenid = TokenUtil.decodeToken(token);
-			Optional<LmsHiring> isUserPresent = hiringRespository.findById(tokenid);
+			Optional<LmsHiring> isUserPresent = hiringRespository.findById(id);
 			if (isUserPresent.isPresent()) 
 			{
 				isUserPresent.get().setFirstName(hiringDTO.getFirstName());
@@ -98,17 +106,16 @@ public class LmsHiringService  implements ILmsHiringService {
 	}
 
 	@Override
-	public ResponseDTO deleteCandidateHiringDataById(String token)
+	public ResponseDTO deleteCandidateHiringDataById(String token,int id)
 	{
 		LmsHiring verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, LmsHiring.class);
 		System.out.println("Value="+verify);
 		if(verify!=null)
 		{
-			int tokenid = TokenUtil.decodeToken(token);
-			Optional<LmsHiring> isUserPresent = hiringRespository.findById(tokenid);
+			Optional<LmsHiring> isUserPresent = hiringRespository.findById(id);
 			if(isUserPresent.isPresent())
 			{
-				hiringRespository.deleteById(tokenid);
+				hiringRespository.deleteById(id);
 				return new ResponseDTO("Deleted Successfully", HttpStatus.ACCEPTED);
 			}
 			else
@@ -123,14 +130,13 @@ public class LmsHiringService  implements ILmsHiringService {
 		
 	}
 	@Override
-	public ResponseDTO updateCandidateHiringStatus(String token, String keyText) 
+	public ResponseDTO updateCandidateHiringStatus(String token,int id, String keyText) 
 	{
 		LmsHiring verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, LmsHiring.class);
 		System.out.println("Value="+verify);
 		if(verify!=null)
 		{
-			int tokenid = TokenUtil.decodeToken(token);
-			Optional<LmsHiring> isUserPresent = hiringRespository.findById(tokenid);
+			Optional<LmsHiring> isUserPresent = hiringRespository.findById(id);
 			if (isUserPresent.isPresent())
 			{
 				isUserPresent.get().setStatus(keyText);
@@ -172,12 +178,9 @@ public class LmsHiringService  implements ILmsHiringService {
 		else
 		{
 			throw new LmsException(400,"Hiring Candidate Not found");
-		}
-		
-					
+		}		
 					
 	}
-	
 	
 	@Override
 	public ResponseDTO getCandidateCount(String token)

@@ -15,8 +15,6 @@ import com.bridgelabz.lmscandidate.exception.LmsException;
 import com.bridgelabz.lmscandidate.model.LmsStatus;
 
 import com.bridgelabz.lmscandidate.respository.LmsStatusRepository;
-import com.bridgelabz.lmscandidate.util.TokenUtil;
-
 
 @Service
 public class LmsStatusService implements ILmsStatusService {
@@ -31,31 +29,47 @@ public class LmsStatusService implements ILmsStatusService {
 	RestTemplate restTemplate;
 	
 	@Override
-	public ResponseDTO getAllStatus() 
+	public ResponseDTO getStatus(String token) 
 	{
-		List<LmsStatus> isStatusPresent = statusRespository.findAll();
-		return new ResponseDTO("List of all Candidate : ", isStatusPresent);
+		LmsStatus verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, LmsStatus.class);
+		System.out.println("Value="+verify);
+		if(verify!=null)
+		{
+			List<LmsStatus> isStatusPresent = statusRespository.findAll();
+			return new ResponseDTO("List of all Candidate : ", isStatusPresent);
+		}
+		else
+		{
+			throw new LmsException(400,"Candidate Status Not found");
+		}
 	}
 
 	@Override
 	public ResponseDTO createStatus(String token,LmsStatusDTO statusDTO) 
 	{
-		
-		LmsStatus status = modelmapper.map(statusDTO, LmsStatus.class);
-		statusRespository.save(status);
-		return new ResponseDTO("Candidate Status Added :", status);
+		LmsStatus verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, LmsStatus.class);
+		System.out.println("Value="+verify);
+		if(verify!=null)
+		{
+			LmsStatus status = modelmapper.map(statusDTO, LmsStatus.class);
+			statusRespository.save(status);
+			return new ResponseDTO("Candidate Status Added :", status);
+		}
+		else
+		{
+			throw new LmsException(400,"Candidate Status Not found");
+		}
 	}
 
 	@Override
-	public ResponseDTO updateStatusDataById(String token, LmsStatusDTO statusDTO)
+	public ResponseDTO updateStatusDataById(String token,int id, LmsStatusDTO statusDTO)
 	{
 
 		LmsStatus verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, LmsStatus.class);
 		System.out.println("Value="+verify);
 		if(verify!=null)
 		{
-			int tokenid = TokenUtil.decodeToken(token);
-			Optional<LmsStatus> isUserPresent = statusRespository.findById(tokenid);
+			Optional<LmsStatus> isUserPresent = statusRespository.findById(id);
 			if (isUserPresent.isPresent()) 
 			{
 				isUserPresent.get().setCreatedUser(statusDTO.getCreatedUser());
@@ -82,18 +96,17 @@ public class LmsStatusService implements ILmsStatusService {
 	}
 
 	@Override
-	public ResponseDTO deleteStatusDataById(String token)
+	public ResponseDTO deleteStatusDataById(String token, int id)
 	{
 		LmsStatus verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, LmsStatus.class);
 		System.out.println("Value="+verify);
 		if(verify!=null)
 		{
-			int tokenid = TokenUtil.decodeToken(token);
 
-			Optional<LmsStatus> isUserPresent = statusRespository.findById(tokenid);
+			Optional<LmsStatus> isUserPresent = statusRespository.findById(id);
 			if(isUserPresent.isPresent())
 			{
-				statusRespository.deleteById(tokenid);
+				statusRespository.deleteById(id);
 				return new ResponseDTO("Deleted Successfully", HttpStatus.ACCEPTED);
 			}
 			else

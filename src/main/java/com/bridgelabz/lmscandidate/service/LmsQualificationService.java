@@ -14,7 +14,6 @@ import com.bridgelabz.lmscandidate.dto.ResponseDTO;
 import com.bridgelabz.lmscandidate.exception.LmsException;
 import com.bridgelabz.lmscandidate.model.LmsQualificationInfo;
 import com.bridgelabz.lmscandidate.respository.LmsQualificationRepository;
-import com.bridgelabz.lmscandidate.util.TokenUtil;
 
 @Service
 public class LmsQualificationService implements ILmsQualificationService{
@@ -30,10 +29,19 @@ public class LmsQualificationService implements ILmsQualificationService{
 	RestTemplate restTemplate;
 
 	@Override
-	public ResponseDTO getQualificationData() 
+	public ResponseDTO getQualificationData(String token) 
 	{
-		List<LmsQualificationInfo> isCandidatePresent = qualificationRespository.findAll();
-		return new ResponseDTO("List of all Qualification Candidate : ", isCandidatePresent);
+		LmsQualificationInfo verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, LmsQualificationInfo.class);
+		System.out.println("Value="+verify);
+		if(verify!=null)
+		{
+			List<LmsQualificationInfo> isCandidatePresent = qualificationRespository.findAll();
+			return new ResponseDTO("List of all Qualification Candidate : ", isCandidatePresent);
+		}
+		else
+		{
+			throw new LmsException(400,"Hiring Candidate Qualification Not found");
+		}
 	}
 
 	@Override
@@ -56,13 +64,12 @@ public class LmsQualificationService implements ILmsQualificationService{
 	}
 
 	@Override
-	public ResponseDTO updateQualificationDataById(String token, LmsQualificationInfoDTO qualificationDTO) {
+	public ResponseDTO updateQualificationDataById(String token,int id, LmsQualificationInfoDTO qualificationDTO) {
 		LmsQualificationInfo verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, LmsQualificationInfo.class);
 		System.out.println("Value="+verify);
 		if(verify!=null)
 		{
-			int tokenid = TokenUtil.decodeToken(token);
-			Optional<LmsQualificationInfo> isUserPresent = qualificationRespository.findById(tokenid);
+			Optional<LmsQualificationInfo> isUserPresent = qualificationRespository.findById(id);
 			if (isUserPresent.isPresent()) 
 			{
 				isUserPresent.get().setDegree(qualificationDTO.getDegree());
@@ -91,17 +98,16 @@ public class LmsQualificationService implements ILmsQualificationService{
 	}
 
 	@Override
-	public ResponseDTO deleteQualificationDataById(String token) 
+	public ResponseDTO deleteQualificationDataById(String token,int id) 
 	{
 		LmsQualificationInfo verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, LmsQualificationInfo.class);
 		System.out.println("Value="+verify);
 		if(verify!=null)
 		{
-			int tokenid = TokenUtil.decodeToken(token);
-			Optional<LmsQualificationInfo> isUserPresent = qualificationRespository.findById(tokenid);
+			Optional<LmsQualificationInfo> isUserPresent = qualificationRespository.findById(id);
 			if(isUserPresent.isPresent())
 			{
-				qualificationRespository.deleteById(tokenid);
+				qualificationRespository.deleteById(id);
 				return new ResponseDTO("Deleted Successfully", HttpStatus.ACCEPTED);
 			}
 			else

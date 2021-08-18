@@ -8,13 +8,13 @@ import com.bridgelabz.lmscandidate.dto.ResponseDTO;
 @Service
 public interface ILmsStatusService {
 	
-	public ResponseDTO getAllStatus();
+	public ResponseDTO getStatus(String token);
 	
 	public ResponseDTO createStatus(String token, LmsStatusDTO statusDTO);
 
-	public ResponseDTO updateStatusDataById(String token,LmsStatusDTO statusDTO);
+	public ResponseDTO updateStatusDataById(String token,int id,LmsStatusDTO statusDTO);
 	
-	public ResponseDTO deleteStatusDataById(String token);
+	public ResponseDTO deleteStatusDataById(String token,int id);
 
 	
 

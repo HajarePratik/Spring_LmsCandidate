@@ -9,13 +9,13 @@ import com.bridgelabz.lmscandidate.dto.ResponseDTO;
 public interface ILmsQualificationService {
 
 	
-	public ResponseDTO getQualificationData();
+	public ResponseDTO getQualificationData(String token);
 	
 	public ResponseDTO createQualificationData(String token, LmsQualificationInfoDTO qualificationDTO);
 	
-	public ResponseDTO updateQualificationDataById(String token,LmsQualificationInfoDTO qualificationDTO);
+	public ResponseDTO updateQualificationDataById(String token,int id,LmsQualificationInfoDTO qualificationDTO);
 	
-	public ResponseDTO deleteQualificationDataById(String token);
+	public ResponseDTO deleteQualificationDataById(String token,int id);
 
 	
 

@@ -24,16 +24,16 @@ public class LmsCandidateController {
 	@Autowired(required = true)
 	private ILmsCandidateService candidateService;
 	
-	@GetMapping("/get")
-	public ResponseEntity<ResponseDTO> getCandidateData()
+	@GetMapping("/getallcandidatedetail/{token}")
+	public ResponseEntity<ResponseDTO> getAllCandidateDetail(@PathVariable String token)
 	{
-		ResponseDTO resDTO = candidateService.getCandidateData(); 
+		ResponseDTO resDTO = candidateService.getAllCandidateDetail(token); 
 		return new ResponseEntity<ResponseDTO>(resDTO, HttpStatus.OK);
 	}
-	@GetMapping("/getcandidate/{token}")
-	public ResponseEntity<ResponseDTO> getCandidateDetail(@PathVariable String token) 
+	@GetMapping("/getcandidate/{token}/{id}")
+	public ResponseEntity<ResponseDTO> getCandidateDetail(@PathVariable String token,@PathVariable int id) 
 	{	
-		ResponseDTO respDTO = candidateService.getAllCandidateDetail(token);
+		ResponseDTO respDTO = candidateService.getCandidateData(token,id);
 		return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
 	}
 	@PostMapping("/createcandidate/{token}")
@@ -43,23 +43,23 @@ public class LmsCandidateController {
 		ResponseDTO resDTO = new ResponseDTO("Create Candidate Details Sucessfully :"+candidateData, candidateDTO);
 		return new ResponseEntity<ResponseDTO>(resDTO,HttpStatus.OK);
 	}
-	@PutMapping("/updatecandidate/{token}")
-	public ResponseEntity<ResponseDTO> updateCandidateDataById(@PathVariable String token,@RequestBody LmsCandidateDTO candidateDTO) {
-		ResponseDTO respDTO = candidateService.updateCandidateDataById(token,candidateDTO);
+	@PutMapping("/updatecandidate/{token}/{id}")
+	public ResponseEntity<ResponseDTO> updateCandidateDataById(@PathVariable String token,@PathVariable int id,@RequestBody LmsCandidateDTO candidateDTO) {
+		ResponseDTO respDTO = candidateService.updateCandidateDataById(token,id,candidateDTO);
 		return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
 	}
 
-	@DeleteMapping("/deletecandicate/{token}")
-	public ResponseEntity<ResponseDTO> deleteCandidateHiringDataById(@PathVariable String token) {
-		candidateService.deleteCandidateDataById(token);
+	@DeleteMapping("/deletecandicate/{token}/{id}")
+	public ResponseEntity<ResponseDTO> deleteCandidateHiringDataById(@PathVariable String token,@PathVariable int id) {
+		candidateService.deleteCandidateDataById(token,id);
 		ResponseDTO respDTO = new ResponseDTO("Deleted Candidate with id : ", token);
 		return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
 	}
 
-	@PutMapping("/updatecandidatestatus/{token}/{keyText}")
-	public ResponseEntity<ResponseDTO> updateCandidateStatus(@PathVariable String token, @PathVariable String keyText) 
+	@PutMapping("/updatecandidatestatus/{token}/{id}/{keyText}")
+	public ResponseEntity<ResponseDTO> updateCandidateStatus(@PathVariable String token,@PathVariable int id, @PathVariable String keyText) 
 	{
-		ResponseDTO respDTO = candidateService.updateCandidateStatus(token, keyText);
+		ResponseDTO respDTO = candidateService.updateCandidateStatus(token,id, keyText);
 		return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
 	}
 }

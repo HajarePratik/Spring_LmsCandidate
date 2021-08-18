@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,14 +25,14 @@ public class LmsQualificationController {
 	private ILmsQualificationService qualificationService;
 	
 	@GetMapping("/getqualification")
-	public ResponseEntity<ResponseDTO> getQualificationData()
+	public ResponseEntity<ResponseDTO> getQualificationData(@PathVariable String token)
 	{
-		ResponseDTO respDTO = qualificationService.getQualificationData();
+		ResponseDTO respDTO = qualificationService.getQualificationData(token);
 		return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
 	}
 	
 	@PostMapping("/createqualification/{token}")
-	public ResponseEntity<ResponseDTO> createCandidateHiringData(String token,@RequestBody LmsQualificationInfoDTO qualificationDTO)
+	public ResponseEntity<ResponseDTO> createCandidateHiringData(@PathVariable String token,@RequestBody LmsQualificationInfoDTO qualificationDTO)
 	{
 
 		ResponseDTO candidateData = qualificationService.createQualificationData(token,qualificationDTO);
@@ -39,15 +40,17 @@ public class LmsQualificationController {
 		return new ResponseEntity<ResponseDTO>(resDTO,HttpStatus.OK);
 	}
 	
-	@PutMapping("/updatequalification/{token}")
-	public ResponseEntity<ResponseDTO> updateCandidateHiringDataById(String token,@RequestBody LmsQualificationInfoDTO qualificationDTO) {
-		ResponseDTO respDTO = qualificationService.updateQualificationDataById(token,qualificationDTO);
+	@PutMapping("/updatequalification/{token}/{id}")
+	public ResponseEntity<ResponseDTO> updateCandidateHiringDataById(@PathVariable String token,@PathVariable int id,@RequestBody LmsQualificationInfoDTO qualificationDTO) 
+	{
+		ResponseDTO respDTO = qualificationService.updateQualificationDataById(token,id,qualificationDTO);
 		return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
 	}
 
-	@DeleteMapping("/deletequalification/{token}")
-	public ResponseEntity<ResponseDTO> deleteCandidateHiringDataById(String token) {
-		qualificationService.deleteQualificationDataById(token);
+	@DeleteMapping("/deletequalification/{token}/{id}")
+	public ResponseEntity<ResponseDTO> deleteCandidateHiringDataById(@PathVariable String token,@PathVariable int id) 
+	{
+		qualificationService.deleteQualificationDataById(token,id);
 		ResponseDTO respDTO = new ResponseDTO("Deleted Candidate with token : ", token);
 		return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
 	}

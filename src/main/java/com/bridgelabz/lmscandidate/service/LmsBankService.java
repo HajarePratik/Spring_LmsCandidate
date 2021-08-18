@@ -18,7 +18,6 @@ import com.bridgelabz.lmscandidate.dto.ResponseDTO;
 import com.bridgelabz.lmscandidate.exception.LmsException;
 import com.bridgelabz.lmscandidate.model.LmsBankInfo;
 import com.bridgelabz.lmscandidate.respository.LmsBankRepository;
-import com.bridgelabz.lmscandidate.util.TokenUtil;
 
 @Service
 public class LmsBankService implements ILmsBankService{
@@ -33,9 +32,20 @@ public class LmsBankService implements ILmsBankService{
 	RestTemplate restTemplate;
 	
 	@Override
-	public ResponseDTO getBankInfo() {
-		List<LmsBankInfo> isCandidatePresent = bankRespository.findAll();
-		return new ResponseDTO("List of all Bank Info Candidate : ", isCandidatePresent);
+	public ResponseDTO getBankInfo(String token) 
+	{
+		LmsBankInfo verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, LmsBankInfo.class);
+		System.out.println("Value="+verify);
+		if(verify!=null)
+		{
+			List<LmsBankInfo> isCandidatePresent = bankRespository.findAll();
+			return new ResponseDTO("List of all Bank Info Candidate : ", isCandidatePresent);
+		}
+		else
+		{
+			throw new LmsException(400, "Candidate Not found");
+		}
+		
 	}
 
 	@Override
@@ -56,14 +66,13 @@ public class LmsBankService implements ILmsBankService{
 	}
 
 	@Override
-	public ResponseDTO updateBankInfoDataById(String token,LmsBankInfoDTO bankDTO)
+	public ResponseDTO updateBankInfoDataById(String token,int id,LmsBankInfoDTO bankDTO)
 	{
 		LmsBankInfo verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, LmsBankInfo.class);
 		System.out.println("Value="+verify);
 		if(verify!=null)
 		{
-			int tokenid = TokenUtil.decodeToken(token);
-			Optional<LmsBankInfo> isUserPresent = bankRespository.findById(tokenid);
+			Optional<LmsBankInfo> isUserPresent = bankRespository.findById(id);
 			if (isUserPresent.isPresent()) 
 			{
 				isUserPresent.get().setAadharNumber(bankDTO.getAadharNumber());
@@ -92,17 +101,16 @@ public class LmsBankService implements ILmsBankService{
 	}
 
 	@Override
-	public ResponseDTO deleteBankInfoDataById(String token) 
+	public ResponseDTO deleteBankInfoDataById(String token,int id) 
 	{
 		LmsBankInfo verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, LmsBankInfo.class);
 		System.out.println("Value="+verify);
 		if(verify!=null)
 		{
-			int tokenid = TokenUtil.decodeToken(token);
-			Optional<LmsBankInfo> isUserPresent = bankRespository.findById(tokenid);
+			Optional<LmsBankInfo> isUserPresent = bankRespository.findById(id);
 			if(isUserPresent.isPresent())
 			{
-				bankRespository.deleteById(tokenid);
+				bankRespository.deleteById(id);
 				return new ResponseDTO("Deleted Successfully", HttpStatus.OK);
 			}
 			else
