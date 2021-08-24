@@ -32,9 +32,9 @@ public class LmsCandidateService implements ILmsCandidateService {
 	@Override
 	public ResponseDTO getAllCandidateDetail(String token) 
 	{
-		LmsCandidate verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, LmsCandidate.class);
+		Boolean verify = restTemplate.getForObject("http://Spring_Boot_UserRegistration_App/verifyemail/"+token, Boolean.class);
 		System.out.println("Value="+verify);
-		if(verify!=null)
+		if(verify)
 		{
 			List<LmsCandidate> isCandidatePresent = candidateRespository.findAll();
 			return new ResponseDTO("List of all Candidate : ", isCandidatePresent);

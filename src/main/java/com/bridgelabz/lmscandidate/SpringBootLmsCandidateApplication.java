@@ -10,7 +10,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @ComponentScan("com.bridgelabz.lmscandidate")
 @EnableJpaRepositories("com.bridgelabz.lmscandidate.respository")
 @EnableEurekaClient
-
 public class SpringBootLmsCandidateApplication 
 {
 	public static void main(String[] args) {
