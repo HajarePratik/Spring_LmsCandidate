@@ -34,9 +34,9 @@ public class LmsHiringService  implements ILmsHiringService {
 	@Override
 	public ResponseDTO getCandidateHiringData(String token) 
 	{
-		LmsHiring verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, LmsHiring.class);
+		boolean verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, Boolean.class);
 		System.out.println("Value="+verify);
-		if(verify!=null)
+		if(verify)
 		{
 			List<LmsHiring> isCandidatePresent = hiringRespository.findAll();
 			return new ResponseDTO("List of all Hiring Candidate : ", isCandidatePresent);
@@ -49,9 +49,9 @@ public class LmsHiringService  implements ILmsHiringService {
 	@Override
 	public ResponseDTO createCandidateHiringData(String token,LmsHiringDTO hiringDTO) 
 	{
-		LmsHiring verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, LmsHiring.class);
+		boolean verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, Boolean.class);
 		System.out.println("Value="+verify);
-		if(verify!=null)
+		if(verify)
 		{
 			LmsHiring candidate = modelmapper.map(hiringDTO, LmsHiring.class);
 			hiringRespository.save(candidate);
@@ -69,9 +69,9 @@ public class LmsHiringService  implements ILmsHiringService {
 	public ResponseDTO updateCandidateHiringDataById(String token,int id, LmsHiringDTO hiringDTO) 
 	{
 		
-		LmsHiring verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, LmsHiring.class);
+		boolean verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, Boolean.class);
 		System.out.println("Value="+verify);
-		if(verify!=null)
+		if(verify)
 		{
 			Optional<LmsHiring> isUserPresent = hiringRespository.findById(id);
 			if (isUserPresent.isPresent()) 
@@ -108,9 +108,9 @@ public class LmsHiringService  implements ILmsHiringService {
 	@Override
 	public ResponseDTO deleteCandidateHiringDataById(String token,int id)
 	{
-		LmsHiring verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, LmsHiring.class);
+		boolean verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, Boolean.class);
 		System.out.println("Value="+verify);
-		if(verify!=null)
+		if(verify)
 		{
 			Optional<LmsHiring> isUserPresent = hiringRespository.findById(id);
 			if(isUserPresent.isPresent())
@@ -132,9 +132,9 @@ public class LmsHiringService  implements ILmsHiringService {
 	@Override
 	public ResponseDTO updateCandidateHiringStatus(String token,int id, String keyText) 
 	{
-		LmsHiring verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, LmsHiring.class);
+		boolean verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, Boolean.class);
 		System.out.println("Value="+verify);
-		if(verify!=null)
+		if(verify)
 		{
 			Optional<LmsHiring> isUserPresent = hiringRespository.findById(id);
 			if (isUserPresent.isPresent())
@@ -158,9 +158,9 @@ public class LmsHiringService  implements ILmsHiringService {
 	@Override
 	public ResponseDTO jobOfferMail(String token, String email) 
 	{
-		LmsHiring verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, LmsHiring.class);
+		boolean verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, Boolean.class);
 		System.out.println("Value="+verify);
-		if(verify!=null)
+		if(verify)
 		{
 			Optional<LmsHiring> isUserPresent = hiringRespository.findAllByemail(email);
 			boolean isPresent = isUserPresent.get().getEmail().matches(email);
@@ -185,9 +185,9 @@ public class LmsHiringService  implements ILmsHiringService {
 	@Override
 	public ResponseDTO getCandidateCount(String token)
 	{
-		LmsHiring verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, LmsHiring.class);
+		boolean verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, Boolean.class);
 		System.out.println("Value="+verify);
-		if(verify!=null)
+		if(verify)
 		{
 			List<LmsHiring> isUserPresent = hiringRespository.findAll();
 			long i = 0;
@@ -203,8 +203,5 @@ public class LmsHiringService  implements ILmsHiringService {
 			throw new LmsException(400,"Hiring Candidate Not found");
 		}
 	}
-
-	
-
 	
 }

@@ -34,9 +34,9 @@ public class LmsBankService implements ILmsBankService{
 	@Override
 	public ResponseDTO getBankInfo(String token) 
 	{
-		LmsBankInfo verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, LmsBankInfo.class);
+		boolean verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, Boolean.class);
 		System.out.println("Value="+verify);
-		if(verify!=null)
+		if(verify)
 		{
 			List<LmsBankInfo> isCandidatePresent = bankRespository.findAll();
 			return new ResponseDTO("List of all Bank Info Candidate : ", isCandidatePresent);
@@ -51,9 +51,9 @@ public class LmsBankService implements ILmsBankService{
 	@Override
 	public ResponseDTO createBankInfo(String token,LmsBankInfoDTO bankDTO) 
 	{
-		LmsBankInfo verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, LmsBankInfo.class);
+		boolean verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, Boolean.class);
 		System.out.println("Value="+verify);
-		if(verify!=null)
+		if(verify)
 		{
 			LmsBankInfo bankDetails = modelmapper.map(bankDTO, LmsBankInfo.class);
 			bankRespository.save(bankDetails);
@@ -68,9 +68,9 @@ public class LmsBankService implements ILmsBankService{
 	@Override
 	public ResponseDTO updateBankInfoDataById(String token,int id,LmsBankInfoDTO bankDTO)
 	{
-		LmsBankInfo verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, LmsBankInfo.class);
+		boolean verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, Boolean.class);
 		System.out.println("Value="+verify);
-		if(verify!=null)
+		if(verify)
 		{
 			Optional<LmsBankInfo> isUserPresent = bankRespository.findById(id);
 			if (isUserPresent.isPresent()) 
@@ -103,9 +103,9 @@ public class LmsBankService implements ILmsBankService{
 	@Override
 	public ResponseDTO deleteBankInfoDataById(String token,int id) 
 	{
-		LmsBankInfo verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, LmsBankInfo.class);
+		boolean verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, Boolean.class);
 		System.out.println("Value="+verify);
-		if(verify!=null)
+		if(verify)
 		{
 			Optional<LmsBankInfo> isUserPresent = bankRespository.findById(id);
 			if(isUserPresent.isPresent())
@@ -131,9 +131,9 @@ public class LmsBankService implements ILmsBankService{
 	public ResponseDTO uploadDocument(String token,int id,MultipartFile panCard, MultipartFile aadharCard,
 			MultipartFile bankPassbook) 
 	{
-		LmsBankInfo verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, LmsBankInfo.class);
+		boolean verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, Boolean.class);
 		System.out.println("Value="+verify);
-		if(verify!=null)
+		if(verify)
 		{
 			Optional<LmsBankInfo> isUserPresent = bankRespository.findById(id);
 			if (isUserPresent.isPresent()) 

@@ -31,9 +31,9 @@ public class LmsQualificationService implements ILmsQualificationService{
 	@Override
 	public ResponseDTO getQualificationData(String token) 
 	{
-		LmsQualificationInfo verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, LmsQualificationInfo.class);
+		boolean verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, Boolean.class);
 		System.out.println("Value="+verify);
-		if(verify!=null)
+		if(verify)
 		{
 			List<LmsQualificationInfo> isCandidatePresent = qualificationRespository.findAll();
 			return new ResponseDTO("List of all Qualification Candidate : ", isCandidatePresent);
@@ -48,9 +48,9 @@ public class LmsQualificationService implements ILmsQualificationService{
 	public ResponseDTO createQualificationData(String token,LmsQualificationInfoDTO qualificationDTO)
 	{
 		
-		LmsQualificationInfo verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, LmsQualificationInfo.class);
+		boolean verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, Boolean.class);
 		System.out.println("Value="+verify);
-		if(verify!=null)
+		if(verify)
 		{
 			LmsQualificationInfo candidate = modelmapper.map(qualificationDTO, LmsQualificationInfo.class);
 			qualificationRespository.save(candidate);
@@ -65,9 +65,9 @@ public class LmsQualificationService implements ILmsQualificationService{
 
 	@Override
 	public ResponseDTO updateQualificationDataById(String token,int id, LmsQualificationInfoDTO qualificationDTO) {
-		LmsQualificationInfo verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, LmsQualificationInfo.class);
+		boolean verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, Boolean.class);
 		System.out.println("Value="+verify);
-		if(verify!=null)
+		if(verify)
 		{
 			Optional<LmsQualificationInfo> isUserPresent = qualificationRespository.findById(id);
 			if (isUserPresent.isPresent()) 
@@ -100,9 +100,9 @@ public class LmsQualificationService implements ILmsQualificationService{
 	@Override
 	public ResponseDTO deleteQualificationDataById(String token,int id) 
 	{
-		LmsQualificationInfo verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, LmsQualificationInfo.class);
+		boolean verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, Boolean.class);
 		System.out.println("Value="+verify);
-		if(verify!=null)
+		if(verify)
 		{
 			Optional<LmsQualificationInfo> isUserPresent = qualificationRespository.findById(id);
 			if(isUserPresent.isPresent())

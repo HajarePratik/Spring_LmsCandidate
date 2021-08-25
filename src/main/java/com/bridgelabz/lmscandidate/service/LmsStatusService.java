@@ -31,9 +31,9 @@ public class LmsStatusService implements ILmsStatusService {
 	@Override
 	public ResponseDTO getStatus(String token) 
 	{
-		LmsStatus verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, LmsStatus.class);
+		boolean verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, Boolean.class);
 		System.out.println("Value="+verify);
-		if(verify!=null)
+		if(verify)
 		{
 			List<LmsStatus> isStatusPresent = statusRespository.findAll();
 			return new ResponseDTO("List of all Candidate : ", isStatusPresent);
@@ -47,9 +47,9 @@ public class LmsStatusService implements ILmsStatusService {
 	@Override
 	public ResponseDTO createStatus(String token,LmsStatusDTO statusDTO) 
 	{
-		LmsStatus verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, LmsStatus.class);
+		boolean verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, Boolean.class);
 		System.out.println("Value="+verify);
-		if(verify!=null)
+		if(verify)
 		{
 			LmsStatus status = modelmapper.map(statusDTO, LmsStatus.class);
 			statusRespository.save(status);
@@ -65,9 +65,9 @@ public class LmsStatusService implements ILmsStatusService {
 	public ResponseDTO updateStatusDataById(String token,int id, LmsStatusDTO statusDTO)
 	{
 
-		LmsStatus verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, LmsStatus.class);
+		boolean verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, Boolean.class);
 		System.out.println("Value="+verify);
-		if(verify!=null)
+		if(verify)
 		{
 			Optional<LmsStatus> isUserPresent = statusRespository.findById(id);
 			if (isUserPresent.isPresent()) 
@@ -98,9 +98,9 @@ public class LmsStatusService implements ILmsStatusService {
 	@Override
 	public ResponseDTO deleteStatusDataById(String token, int id)
 	{
-		LmsStatus verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, LmsStatus.class);
+		boolean verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, Boolean.class);
 		System.out.println("Value="+verify);
-		if(verify!=null)
+		if(verify)
 		{
 
 			Optional<LmsStatus> isUserPresent = statusRespository.findById(id);

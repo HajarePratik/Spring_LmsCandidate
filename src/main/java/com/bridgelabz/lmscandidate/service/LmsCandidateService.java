@@ -32,7 +32,7 @@ public class LmsCandidateService implements ILmsCandidateService {
 	@Override
 	public ResponseDTO getAllCandidateDetail(String token) 
 	{
-		Boolean verify = restTemplate.getForObject("http://Spring_Boot_UserRegistration_App/verifyemail/"+token, Boolean.class);
+		boolean verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, Boolean.class);
 		System.out.println("Value="+verify);
 		if(verify)
 		{
@@ -49,9 +49,9 @@ public class LmsCandidateService implements ILmsCandidateService {
 	@Override
 	public ResponseDTO getCandidateData(String token,int id) 
 	{
-		LmsCandidate verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, LmsCandidate.class);
+		boolean verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, Boolean.class);
 		System.out.println("Value="+verify);
-		if(verify!=null)
+		if(verify)
 		{
 			Optional<LmsCandidate> isUserPresent = candidateRespository.findById(id);
 			LmsCandidate candidates = isUserPresent.get();
@@ -66,9 +66,9 @@ public class LmsCandidateService implements ILmsCandidateService {
 	@Override
 	public ResponseDTO createCandidateData(String token,LmsCandidateDTO candidateDTO) 
 	{
-		LmsCandidate verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, LmsCandidate.class);
+		boolean verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, Boolean.class);
 		System.out.println("Value="+verify);
-		if(verify!=null)
+		if(verify)
 		{
 			LmsCandidate candidate = modelmapper.map(candidateDTO, LmsCandidate.class);
 			candidateRespository.save(candidate);
@@ -84,9 +84,9 @@ public class LmsCandidateService implements ILmsCandidateService {
 	@Override
 	public ResponseDTO updateCandidateDataById(String token,int id, LmsCandidateDTO candidateDTO) 
 	{
-		LmsCandidate verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, LmsCandidate.class);
+		boolean verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, Boolean.class);
 		System.out.println("Value="+verify);
-		if(verify!=null)
+		if(verify)
 		{
 		
 			Optional<LmsCandidate> isUserPresent = candidateRespository.findById(id);
@@ -128,9 +128,9 @@ public class LmsCandidateService implements ILmsCandidateService {
 	@Override
 	public ResponseDTO deleteCandidateDataById(String token,int id)
 	{
-		LmsCandidate verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, LmsCandidate.class);
+		boolean verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, Boolean.class);
 		System.out.println("Value="+verify);
-		if(verify!=null)
+		if(verify)
 		{
 
 			Optional<LmsCandidate> isUserPresent = candidateRespository.findById(id);
@@ -153,9 +153,9 @@ public class LmsCandidateService implements ILmsCandidateService {
 	@Override
 	public ResponseDTO updateCandidateStatus(String token,int id, String keyText) 
 	{
-		LmsCandidate verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, LmsCandidate.class);
+		boolean verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, Boolean.class);
 		System.out.println("Value="+verify);
-		if(verify!=null)
+		if(verify)
 		{
 		
 			Optional<LmsCandidate> isUserPresent = candidateRespository.findById(id);
