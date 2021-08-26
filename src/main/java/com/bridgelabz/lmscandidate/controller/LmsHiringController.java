@@ -24,7 +24,7 @@ public class LmsHiringController {
 	@Autowired(required = true)
 	private ILmsHiringService hiringService;
 	
-	@GetMapping("/get")
+	@GetMapping("/get/{token}")
 	public ResponseEntity<ResponseDTO> getCandidateHiringData(@PathVariable String token)
 	{
 		ResponseDTO resDTO = hiringService.getCandidateHiringData(token); 
@@ -60,14 +60,14 @@ public class LmsHiringController {
 		return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
 	}
 	
-	@PostMapping("/jobofferMail")
+	@PostMapping("/jobofferMail/{token}")
 	public ResponseEntity<ResponseDTO> jobOfferMail(@PathVariable String token, @RequestBody String email)
 	{
 		ResponseDTO respDTO = hiringService.jobOfferMail(token, email);
 		return new ResponseEntity<ResponseDTO>(respDTO, HttpStatus.OK);
 	}
 
-	@GetMapping("/getcandidatecount")
+	@GetMapping("/getcandidatecount/{token}")
 	public ResponseEntity<ResponseDTO> getcount(@PathVariable String token) 
 	{
 		ResponseDTO respDTO = hiringService.getCandidateCount(token);

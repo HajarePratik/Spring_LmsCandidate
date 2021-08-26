@@ -25,7 +25,7 @@ public class LmsStatusController
 	@Autowired(required = true)
 	private ILmsStatusService statusService;
 	
-	@GetMapping("/get")
+	@GetMapping("/get/{token}")
 	public ResponseEntity<ResponseDTO> getStatus(@PathVariable String token)
 	{
 		ResponseDTO resDTO = statusService.getStatus(token); 

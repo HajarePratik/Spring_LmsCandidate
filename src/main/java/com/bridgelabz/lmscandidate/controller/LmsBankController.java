@@ -28,7 +28,7 @@ public class LmsBankController {
 	@Autowired(required = true)
 	private ILmsBankService bankService;
 	
-	@GetMapping("/get")
+	@GetMapping("/get/{token}")
 	public ResponseEntity<ResponseDTO> getBankInfo(@PathVariable String token)
 	{
 		ResponseDTO resDTO = bankService.getBankInfo(token); 

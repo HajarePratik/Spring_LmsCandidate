@@ -24,7 +24,7 @@ public class LmsQualificationController {
 	@Autowired(required = true)
 	private ILmsQualificationService qualificationService;
 	
-	@GetMapping("/getqualification")
+	@GetMapping("/getqualification/{token}")
 	public ResponseEntity<ResponseDTO> getQualificationData(@PathVariable String token)
 	{
 		ResponseDTO respDTO = qualificationService.getQualificationData(token);

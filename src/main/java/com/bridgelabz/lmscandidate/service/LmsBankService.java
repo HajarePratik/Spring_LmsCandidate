@@ -34,7 +34,7 @@ public class LmsBankService implements ILmsBankService{
 	@Override
 	public ResponseDTO getBankInfo(String token) 
 	{
-		boolean verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, Boolean.class);
+		boolean verify = restTemplate.getForObject("http://userregistration-client/verifyemail/"+token, Boolean.class);
 		System.out.println("Value="+verify);
 		if(verify)
 		{
@@ -51,7 +51,7 @@ public class LmsBankService implements ILmsBankService{
 	@Override
 	public ResponseDTO createBankInfo(String token,LmsBankInfoDTO bankDTO) 
 	{
-		boolean verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, Boolean.class);
+		boolean verify = restTemplate.getForObject("http://userregistration-client/verifyemail/"+token, Boolean.class);
 		System.out.println("Value="+verify);
 		if(verify)
 		{
@@ -68,7 +68,7 @@ public class LmsBankService implements ILmsBankService{
 	@Override
 	public ResponseDTO updateBankInfoDataById(String token,int id,LmsBankInfoDTO bankDTO)
 	{
-		boolean verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, Boolean.class);
+		boolean verify = restTemplate.getForObject("http://userregistration-client/verifyemail/"+token, Boolean.class);
 		System.out.println("Value="+verify);
 		if(verify)
 		{
@@ -103,7 +103,7 @@ public class LmsBankService implements ILmsBankService{
 	@Override
 	public ResponseDTO deleteBankInfoDataById(String token,int id) 
 	{
-		boolean verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, Boolean.class);
+		boolean verify = restTemplate.getForObject("http://userregistration-client/verifyemail/"+token, Boolean.class);
 		System.out.println("Value="+verify);
 		if(verify)
 		{
@@ -131,7 +131,7 @@ public class LmsBankService implements ILmsBankService{
 	public ResponseDTO uploadDocument(String token,int id,MultipartFile panCard, MultipartFile aadharCard,
 			MultipartFile bankPassbook) 
 	{
-		boolean verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, Boolean.class);
+		boolean verify = restTemplate.getForObject("http://userregistration-client/verifyemail/"+token, Boolean.class);
 		System.out.println("Value="+verify);
 		if(verify)
 		{

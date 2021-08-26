@@ -31,7 +31,7 @@ public class LmsStatusService implements ILmsStatusService {
 	@Override
 	public ResponseDTO getStatus(String token) 
 	{
-		boolean verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, Boolean.class);
+		boolean verify = restTemplate.getForObject("http://userregistration-client/verifyemail/"+token, Boolean.class);
 		System.out.println("Value="+verify);
 		if(verify)
 		{
@@ -47,7 +47,7 @@ public class LmsStatusService implements ILmsStatusService {
 	@Override
 	public ResponseDTO createStatus(String token,LmsStatusDTO statusDTO) 
 	{
-		boolean verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, Boolean.class);
+		boolean verify = restTemplate.getForObject("http://userregistration-client/verifyemail/"+token, Boolean.class);
 		System.out.println("Value="+verify);
 		if(verify)
 		{
@@ -65,7 +65,7 @@ public class LmsStatusService implements ILmsStatusService {
 	public ResponseDTO updateStatusDataById(String token,int id, LmsStatusDTO statusDTO)
 	{
 
-		boolean verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, Boolean.class);
+		boolean verify = restTemplate.getForObject("http://userregistration-client/verifyemail/"+token, Boolean.class);
 		System.out.println("Value="+verify);
 		if(verify)
 		{
@@ -98,7 +98,7 @@ public class LmsStatusService implements ILmsStatusService {
 	@Override
 	public ResponseDTO deleteStatusDataById(String token, int id)
 	{
-		boolean verify = restTemplate.getForObject("http://localhost:8080/verifyemail/"+token, Boolean.class);
+		boolean verify = restTemplate.getForObject("http://userregistration-client/verifyemail/"+token, Boolean.class);
 		System.out.println("Value="+verify);
 		if(verify)
 		{
